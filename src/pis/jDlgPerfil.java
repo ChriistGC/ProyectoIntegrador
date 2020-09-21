@@ -5,15 +5,22 @@
  */
 package pis;
 
+import re.dao.DAOException;
+import re.dao.DAOManager;
+
 /**
  *
  * @author kriz_
  */
 public class jDlgPerfil extends javax.swing.JDialog {
 
-    /**
-     * Creates new form jDlgPerfil
-     */
+    private DAOManager manager;
+    
+    public jDlgPerfil(DAOManager manager)throws DAOException {
+        initComponents();
+        this.manager=manager;
+    }
+    
     public jDlgPerfil(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -29,7 +36,7 @@ public class jDlgPerfil extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        detalleCliente2 = new pis.DetalleCliente();
+        detalle = new pis.DetalleCliente();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -38,6 +45,11 @@ public class jDlgPerfil extends javax.swing.JDialog {
         jLabel1.setText("Perfil");
 
         jLabel2.setText("Actualizar perfil");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setText("Eliminar Perfil");
 
@@ -49,7 +61,7 @@ public class jDlgPerfil extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(detalleCliente2, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
+                        .addComponent(detalle, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(178, 178, 178)
                         .addComponent(jLabel1)
@@ -67,7 +79,7 @@ public class jDlgPerfil extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(detalleCliente2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(detalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -77,6 +89,15 @@ public class jDlgPerfil extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        // TODO add your handling code here:
+//        detalle.setCliente(region);
+//            detalle.setEditablePerfil(true);
+//            detalle.loadData();
+//            guardar.setEnabled(true);
+//            cancelar.setEnabled(true);
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -121,7 +142,7 @@ public class jDlgPerfil extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private pis.DetalleCliente detalleCliente2;
+    private pis.DetalleCliente detalle;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

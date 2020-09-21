@@ -14,11 +14,11 @@ import reg.modelo.Cliente;
 
 public class ClienteBdDAO implements ClienteDAO {
 
-    final String INSERT = "INSERT INTO registros1(codigo, dpi, nombre, F_nacimiento, direcion, telefono) values(?,?,?,?,?,?)";
-    final String UPDATE = "UPDATE registros1 SET codigo = ?, dpi = ?, nombre = ?, F_nacimiento = ?, direcion = ?, telefono = ? where codigo=? ";
-    final String DELETE = "DELETE FROM registros1 where codigo=? ";
-    final String GETALL = "SELECT codigo, dpi, nombre, F_nacimiento, direcion, telefono FROM registros1";
-    final String GET0NE = "SELECT codigo, dpi, nombre, F_nacimiento, direcion, telefono FROM registros1 where codigo=?";
+    final String INSERT = "INSERT INTO usuario(id_usuario, nombres, apellido, cedula, telefono, direccion, correo, sexo, ciudad) values(?,?,?,?,?,?)";
+    final String UPDATE = "UPDATE ususario SET id_usuario = ?, nombres = ?, apellido = ?, cedula = ?, telefono = ?, direccion = ?, correo = ?, sexo = ?, ciudad = ? where id_usuario=? ";
+    final String DELETE = "DELETE FROM usuario where id_usuario=? ";
+    final String GETALL = "SELECT * FROM usuario";
+    final String GET0NE = "SELECT * FROM usuario where id_usuario=?";
 
     private Connection conn;
 
@@ -73,6 +73,7 @@ public class ClienteBdDAO implements ClienteDAO {
             stmt.setString(7, a.getCorreo());
             stmt.setString(8, a.getSexo());
             stmt.setString(9, a.getCiudad());
+            stmt.setInt(10, a.getCodigo());
 
             if (stmt.executeUpdate() == 0) {
                 throw new DAOException("El registro no se ha modificado");

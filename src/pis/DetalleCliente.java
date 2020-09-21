@@ -28,15 +28,33 @@ public class DetalleCliente extends javax.swing.JPanel {
         return editable;
 
     }
+    
+    public void setEditablePerfil(boolean editable) {
+        this.editable = editable;
+        codigo.setEditable(false);
+        nombres.setEditable(false);
+        apellidos.setEditable(false);
+        cedula.setEditable(false);
+        telefono.setEditable(editable);
+        direccion.setEditable(editable);
+        correo.setEditable(editable);
+        jRdBtNMas.setEnabled(editable);
+        jRdBtnFem.setEnabled(editable);
+        ciudad.setEditable(editable);
+    }
 
     public void setEditable(boolean editable) {
         this.editable = editable;
         codigo.setEditable(editable);
-        telefono.setEditable(editable);
         nombres.setEditable(editable);
-        cedula.setEditable(editable);
         apellidos.setEditable(editable);
+        cedula.setEditable(editable);
+        telefono.setEditable(editable);
         direccion.setEditable(editable);
+        correo.setEditable(editable);
+        jRdBtNMas.setEnabled(editable);
+        jRdBtnFem.setEnabled(editable);
+        ciudad.setEditable(editable);
     }
 
     public void loadData() {
@@ -48,9 +66,9 @@ public class DetalleCliente extends javax.swing.JPanel {
             telefono.setText(cliente.getTelefono());
             direccion.setText(cliente.getDireccion());
             correo.setText(cliente.getCorreo());
-            if(cliente.getSexo()=="FEMENINO"){
+            if (cliente.getSexo() == "FEMENINO") {
                 jRdBtnFem.setSelected(true);
-            }else if(cliente.getSexo()=="MASCULINO"){
+            } else if (cliente.getSexo() == "MASCULINO") {
                 jRdBtNMas.setSelected(true);
             }
             ciudad.setText(cliente.getCiudad());
@@ -66,29 +84,29 @@ public class DetalleCliente extends javax.swing.JPanel {
             jRdBtNMas.setSelected(false);
             ciudad.setText("");
         }
-        
+
         codigo.requestFocus();
     }
 
     public void saveDate() {
         if (cliente == null) {
             cliente = new Cliente();
-            
+
             cliente.setNuevo(true);
+        } else {
+            cliente.setNuevo(false);
         }
-        else
-             cliente.setNuevo(false);
-        
-        cliente.setCodigo(Integer.parseInt( codigo.getText()));
+
+        cliente.setCodigo(Integer.parseInt(codigo.getText()));
         cliente.setNombres(nombres.getText());
         cliente.setApellidos(apellidos.getText());
         cliente.setCedula(cedula.getText());
         cliente.setTelefono(telefono.getText());
         cliente.setDireccion(direccion.getText());
         cliente.setCorreo(correo.getText());
-        if(jRdBtnFem.isSelected()==true){
+        if (jRdBtnFem.isSelected() == true) {
             cliente.setSexo("Femenino");
-        }else if(jRdBtNMas.isSelected()==true){
+        } else if (jRdBtNMas.isSelected() == true) {
             cliente.setSexo("Masculino");
         }
         cliente.setCiudad(ciudad.getText());
