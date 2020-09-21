@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import re.dao.DAOManager;
 import re.dao.ClienteDAO;
+import re.dao.LoginDAO;
 
 /**
  *
@@ -14,6 +15,7 @@ import re.dao.ClienteDAO;
 public class OracleDaoManager implements DAOManager {
     private Connection conn;
     private ClienteDAO cliente=null;
+    private LoginDAO login=null;
     
     public OracleDaoManager(String url, String username, String password) throws ClassNotFoundException, SQLException
     {
@@ -32,6 +34,14 @@ public class OracleDaoManager implements DAOManager {
 
     public Connection getConn() {
         return conn;
+    }
+
+    @Override
+    public LoginDAO getLoginDAO() {
+        if(login==null)   {
+             login = new LoginBdDAO(conn);
+         } 
+         return login;
     }
     
 }

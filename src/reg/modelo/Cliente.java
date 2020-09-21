@@ -129,6 +129,6 @@ public class Cliente {
     
     @Override
     public String toString() {
-        return "Cliente{" + "Nombres=" + getNombres() + ", Apellidos=" + getApellidos() + ", Cedula=" + getCedula() + ", Telefono=" + getTelefono() + ", Direccion=" + getDireccion() + ", Correo=" + getCorreo() + ", Sexo=" + getSexo() + ", Ciudad=" + getCiudad() + '}';
+        return "Cliente{"+"Codigo"+codigo + "Nombres=" + getNombres() + ", Apellidos=" + getApellidos() + ", Cedula=" + getCedula() + ", Telefono=" + getTelefono() + ", Direccion=" + getDireccion() + ", Correo=" + getCorreo() + ", Sexo=" + getSexo() + ", Ciudad=" + getCiudad() + '}';
     }
 }
