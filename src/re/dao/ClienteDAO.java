@@ -9,7 +9,7 @@ import reg.modelo.Cliente;
 
 /**
  *
- * @author Gabriel
+ * @author kriz_
  */
 public interface ClienteDAO extends DAO<Cliente,Integer> {
     

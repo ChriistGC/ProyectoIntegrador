@@ -9,7 +9,7 @@ import re.dao.ClienteDAO;
 
 /**
  *
- * @author Gabriel
+ * @author kriz_
  */
 public class OracleDaoManager implements DAOManager {
     private Connection conn;

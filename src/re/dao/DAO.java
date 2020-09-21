@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author Gabriel
+ * @author kriz_
  */
 public interface DAO <T,K>{
     

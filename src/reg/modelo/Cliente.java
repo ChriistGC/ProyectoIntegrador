@@ -7,7 +7,7 @@ package reg.modelo;
 
 /**
  *
- * @author Gabriel
+ * @author kriz_
  */
 public class Cliente {
     

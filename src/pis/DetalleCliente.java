@@ -9,7 +9,7 @@ import reg.modelo.Cliente;
 
 /**
  *
- * @author Gabriel
+ * @author kriz_
  */
 public class DetalleCliente extends javax.swing.JPanel {
 
