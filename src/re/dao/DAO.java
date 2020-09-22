@@ -18,4 +18,5 @@ public interface DAO <T,K>{
     void eliminar(T a) throws DAOException;
     List<T> obtenerTodos() throws DAOException;
     T obtener(K id) throws DAOException;
+    T obtenerUser(String user) throws DAOException;
 }

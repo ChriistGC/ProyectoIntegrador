@@ -66,9 +66,9 @@ public class DetalleCliente extends javax.swing.JPanel {
             telefono.setText(cliente.getTelefono());
             direccion.setText(cliente.getDireccion());
             correo.setText(cliente.getCorreo());
-            if (cliente.getSexo() == "FEMENINO") {
+            if (cliente.getSexo().toUpperCase() == "FEMENINO") {
                 jRdBtnFem.setSelected(true);
-            } else if (cliente.getSexo() == "MASCULINO") {
+            } else if (cliente.getSexo().toUpperCase() == "MASCULINO") {
                 jRdBtNMas.setSelected(true);
             }
             ciudad.setText(cliente.getCiudad());

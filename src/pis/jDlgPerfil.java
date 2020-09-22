@@ -5,8 +5,13 @@
  */
 package pis;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import re.dao.DAOException;
 import re.dao.DAOManager;
+import re.dao.bd.OracleDaoManager;
+import reg.modelo.Cliente;
 
 /**
  *
@@ -15,15 +20,36 @@ import re.dao.DAOManager;
 public class jDlgPerfil extends javax.swing.JDialog {
 
     private DAOManager manager;
+    private int cod;
     
-    public jDlgPerfil(DAOManager manager)throws DAOException {
-        initComponents();
-        this.manager=manager;
-    }
-    
-    public jDlgPerfil(java.awt.Frame parent, boolean modal) {
+    public jDlgPerfil(java.awt.Frame parent, boolean modal, DAOManager manager) throws DAOException{
         super(parent, modal);
         initComponents();
+        this.manager=manager;
+        Datos();
+    }
+    
+    public jDlgPerfil(java.awt.Frame parent, boolean modal, DAOManager manager, int cod) throws DAOException{
+        super(parent, modal);
+        initComponents();
+        this.manager=manager;
+        this.cod=cod;
+        Datos();
+    }
+    
+    private Cliente getClienteSeleccionado() throws DAOException {
+        return manager.getClienteDAO().obtener(cod);
+    }
+    
+    private void Datos(){
+        try {
+            Cliente cl = getClienteSeleccionado();
+            this.detalle.setCliente(cl);
+            detalle.setEditable(false);
+            detalle.loadData();
+        } catch (DAOException ex) {
+            Logger.getLogger(jDlgPerfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -102,7 +128,7 @@ public class jDlgPerfil extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ClassNotFoundException, SQLException{
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -127,9 +153,10 @@ public class jDlgPerfil extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                jDlgPerfil dialog = new jDlgPerfil(new javax.swing.JFrame(), true);
+        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                jDlgPerfil dialog =new jDlgPerfil(new javax.swing.JFrame(), true,manager);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -137,6 +164,8 @@ public class jDlgPerfil extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
+            } catch (DAOException ex) {
+                Logger.getLogger(jDlgPerfil.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }

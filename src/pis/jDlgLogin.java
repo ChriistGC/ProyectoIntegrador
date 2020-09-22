@@ -5,6 +5,14 @@
  */
 package pis;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import re.dao.DAOException;
+import re.dao.DAOManager;
+import re.dao.bd.OracleDaoManager;
+import reg.modelo.Login;
+
 /**
  *
  * @author kriz_
@@ -14,8 +22,11 @@ public class jDlgLogin extends javax.swing.JDialog {
     /**
      * Creates new form jDlgLogin
      */
-    public jDlgLogin(java.awt.Frame parent, boolean modal) {
+    private DAOManager manager;
+
+    public jDlgLogin(java.awt.Frame parent, boolean modal, DAOManager manager) {
         super(parent, modal);
+        this.manager = manager;
         initComponents();
     }
 
@@ -49,6 +60,11 @@ public class jDlgLogin extends javax.swing.JDialog {
         });
 
         jButton1.setText("Iniciar sesión");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Inicio de sesión");
 
@@ -116,6 +132,39 @@ public class jDlgLogin extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            Login login = manager.getLoginDAO().obtenerUser(jTextField2.getText());
+            if (login.getUsuario().equals(jTextField2.getText()) && login.getContraseña().equals(String.valueOf(jPasswordField1.getPassword()))) {
+                try {
+                    DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+                    int cod=0;
+                    if(login.getIdUsuario()!=0){
+                        cod=login.getIdUsuario();
+                    }else if(login.getIdAdmin()!=0){
+                        cod=login.getIdAdmin();
+                    }else if(login.getIdAgenVenta()!=0){
+                        cod=login.getIdAgenVenta();
+                    }
+                    jDlgPerfil ventana = new jDlgPerfil(null, true, manager,cod);
+                    dispose();
+                    ventana.pack();
+                    ventana.setVisible(true);
+                    
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(jFrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(jFrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (DAOException ex) {
+            Logger.getLogger(jDlgLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -146,14 +195,21 @@ public class jDlgLogin extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                jDlgLogin dialog = new jDlgLogin(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                try {
+                    DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+                    jDlgLogin dialog = new jDlgLogin(new javax.swing.JFrame(), true, manager);
+                    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                        @Override
+                        public void windowClosing(java.awt.event.WindowEvent e) {
+                            System.exit(0);
+                        }
+                    });
+                    dialog.setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(jDlgLogin.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(jDlgLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

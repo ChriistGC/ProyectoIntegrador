@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import re.dao.DAOException;
 import re.dao.LoginDAO;
-import reg.modelo.Cliente;
 import reg.modelo.Login;
 
 /**
@@ -24,11 +23,11 @@ import reg.modelo.Login;
  */
 public class LoginBdDAO implements LoginDAO{
     
-    final String INSERT = "INSERT INTO login(id_usuario, id_administrador, id_agente, usuario, contraseña) values(?,?,?,?,?,?)";
-    final String UPDATE = "UPDATE login SET id_usuario = ?, id_administrador = ?, id_agente = ?, usuario = ?, contraseña = ? where id_usuario= ? ";
+    final String INSERT = "INSERT INTO login(id_usuario, id_administrador, id_agente, usuario, contrasena) values(?,?,?,?,?,?)";
+    final String UPDATE = "UPDATE login SET id_usuario = ?, id_administrador = ?, id_agente = ?, usuario = ?, contrasena = ? where id_usuario= ? ";
     final String DELETE = "DELETE FROM login where id_usuario=?";
     final String GETALL = "SELECT * FROM login";
-    final String GET0NE = "SELECT * FROM login where id_usuario=?";
+    final String GET0NE = "SELECT * FROM login where usuario=?";
     
     private Connection conn;
     
@@ -124,7 +123,7 @@ public class LoginBdDAO implements LoginDAO{
             stmt = conn.prepareStatement(GETALL);
             rs = stmt.executeQuery();
             while (rs.next()) {
-//                log.add(convertir(rs));
+                log.add(convertir(rs));
             }
 
         } catch (SQLException ex) {
@@ -141,16 +140,19 @@ public class LoginBdDAO implements LoginDAO{
     }
 
     @Override
-    public Login obtener(Integer id) throws DAOException {
+    public Login obtener(Integer id) throws DAOException {return null;}
+    
+    @Override
+    public Login obtenerUser(String usuario) throws DAOException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Login log = null;
         try {
             stmt = conn.prepareStatement(GET0NE);
-            stmt.setInt(1, id);
+            stmt.setString(1, usuario);
             rs = stmt.executeQuery();
             if (rs.next()) {
-//                cl = convertir(rs);
+                log = convertir(rs);
             } else {
                 throw new DAOException("No se encontro el registro");
             }
@@ -165,6 +167,17 @@ public class LoginBdDAO implements LoginDAO{
             }
         }
 
+        return log;
+    }
+    
+    private Login convertir(ResultSet rs) throws SQLException { //Java: JDBC – 14
+        int idUsuario=rs.getInt("id_usuario");
+        int idAdmin=rs.getInt("id_administrador");
+        int idAgenVenta=rs.getInt("id_agente");
+        String usuario=rs.getString("usuario");
+        String contraseña=rs.getString("contrasena");
+        Login log = new Login(idUsuario, idAdmin, idAgenVenta, usuario, contraseña);
+        log.setIdUsuario(rs.getInt("id_usuario"));//revisar
         return log;
     }
     

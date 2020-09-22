@@ -119,12 +119,12 @@ public class ClienteBdDAO implements ClienteDAO {
     public List<Cliente> obtenerTodos() throws DAOException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<Cliente> reg = new ArrayList<>();
+        List<Cliente> cl = new ArrayList<>();
         try {
             stmt = conn.prepareStatement(GETALL);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                reg.add(convertir(rs));
+                cl.add(convertir(rs));
             }
 
         } catch (SQLException ex) {
@@ -137,7 +137,7 @@ public class ClienteBdDAO implements ClienteDAO {
             }
         }
 
-        return reg;
+        return cl;
     }
 
     @Override
@@ -169,9 +169,9 @@ public class ClienteBdDAO implements ClienteDAO {
     }
 
     private Cliente convertir(ResultSet rs) throws SQLException { //Java: JDBC – 14
-        int codigo = rs.getInt("codigo");
+        int codigo = rs.getInt("id_usuario");
         String nombres = rs.getString("nombres");
-        String apellidos = rs.getString("apellidos");
+        String apellidos = rs.getString("apellido");
         String cedula = rs.getString("cedula");
         String telefono = rs.getString("telefono");
         String direccion = rs.getString("direccion");
@@ -179,8 +179,13 @@ public class ClienteBdDAO implements ClienteDAO {
         String sexo = rs.getString("sexo");
         String ciudad = rs.getString("ciudad");
         Cliente cl = new Cliente(codigo, nombres, apellidos, cedula, telefono, direccion, correo, sexo, ciudad);
-        cl.setCodigo(rs.getInt("codigo"));//revisar
+        cl.setCodigo(rs.getInt("id_usuario"));//revisar
         return cl;
 
+    }
+
+    @Override
+    public Cliente obtenerUser(String user) throws DAOException {
+        return null;
     }
 }
