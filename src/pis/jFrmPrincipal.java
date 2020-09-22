@@ -134,6 +134,7 @@ public class jFrmPrincipal extends javax.swing.JFrame {
             DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
             jDlgLogin ventana=new jDlgLogin(this,true,manager);
             dispose();
+            ventana.setBoton("Usuario");
             ventana.pack();
             ventana.setVisible(true);
         } catch (ClassNotFoundException ex) {
@@ -150,6 +151,7 @@ public class jFrmPrincipal extends javax.swing.JFrame {
             DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
             jDlgLogin ventana=new jDlgLogin(this,true,manager);
             dispose();
+            ventana.setBoton("Agente");
             ventana.pack();
             ventana.setVisible(true);
         } catch (ClassNotFoundException ex) {

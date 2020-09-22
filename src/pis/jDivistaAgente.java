@@ -113,26 +113,25 @@ public class jDivistaAgente extends javax.swing.JDialog {
         jLabel5.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Fecha");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(658, 42, -1, 28));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 40, -1, 28));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(714, 42, 98, 28));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, 98, 28));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Aceptar1.png"))); // NOI18N
         jButton2.setText("Aceptar");
         jButton2.setBorder(null);
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(714, 462, 112, 28));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 440, 112, 28));
 
         jButton3.setText("Cancelar");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(703, 504, 126, -1));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 470, 126, -1));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/S-Metodo_pago1.png"))); // NOI18N
-        jButton4.setText("Seleccionar M.Pago");
         jButton4.setBorder(null);
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(714, 420, 112, 28));
-        jPanel1.add(detalleCliente2, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 28, -1, -1));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 410, 120, 28));
+        jPanel1.add(detalleCliente2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 854, 602));
 

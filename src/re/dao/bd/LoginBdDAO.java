@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import re.dao.DAOException;
 import re.dao.LoginDAO;
 import reg.modelo.Login;
@@ -154,7 +155,8 @@ public class LoginBdDAO implements LoginDAO{
             if (rs.next()) {
                 log = convertir(rs);
             } else {
-                throw new DAOException("No se encontro el registro");
+                JOptionPane.showMessageDialog(null, "Usuario no encontrado. Intente nuevamente", "Sistema", JOptionPane.ERROR_MESSAGE);
+//                throw new DAOException("No se encontro el registro");
             }
 
         } catch (SQLException ex) {

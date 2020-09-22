@@ -8,11 +8,11 @@ package pis;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import re.dao.DAOException;
 import re.dao.DAOManager;
 import re.dao.bd.OracleDaoManager;
 import reg.modelo.Login;
-
 
 /**
  *
@@ -24,11 +24,17 @@ public class jDlgLogin extends javax.swing.JDialog {
      * Creates new form jDlgLogin
      */
     private DAOManager manager;
+    private int cont;
+    private String boton;
 
     public jDlgLogin(java.awt.Frame parent, boolean modal, DAOManager manager) {
         super(parent, modal);
         this.manager = manager;
         initComponents();
+    }
+
+    public void setBoton(String boton) {
+        this.boton = boton;
     }
 
     /**
@@ -96,32 +102,50 @@ public class jDlgLogin extends javax.swing.JDialog {
         try {
             // TODO add your handling code here:
             Login login = manager.getLoginDAO().obtenerUser(jTextField1.getText());
-            if (login.getUsuario().equals(jTextField1.getText()) && login.getContraseña().equals(String.valueOf(jPasswordField2.getPassword()))) {
-                try {
+            try {
+                if (login.getUsuario().equals(jTextField1.getText()) && login.getContraseña().equals(String.valueOf(jPasswordField2.getPassword()))) {
+
                     DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
-                    int cod=0;
-                    if(login.getIdUsuario()!=0){
-                        cod=login.getIdUsuario();
-                    }else if(login.getIdAdmin()!=0){
-                        cod=login.getIdAdmin();
-                    }else if(login.getIdAgenVenta()!=0){
-                        cod=login.getIdAgenVenta();
+                    int cod = 0;
+                    if (login.getIdUsuario() != 0 && boton.equals("Usuario")) {
+                        cod = login.getIdUsuario();
+                        jDlgPerfil ventana = new jDlgPerfil(null, true, manager, cod);
+                        dispose();
+                        ventana.pack();
+                        ventana.setVisible(true);
+                    } else if (login.getIdAdmin() != 0) {
+                        cod = login.getIdAdmin();
+                    } else if (login.getIdAgenVenta() != 0 && boton.equals("Agente")) {
+                        cod = login.getIdAgenVenta();
+                        jDivistaAgente ventana = new jDivistaAgente(null, true);
+                        dispose();
+                        ventana.pack();
+                        ventana.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No tiene permisos para entrar al perfil deseado", "Sistema", JOptionPane.ERROR_MESSAGE);
+                        jFrmPrincipal ventana = new jFrmPrincipal();
+                        dispose();
+                        ventana.setVisible(true);
                     }
-                    jDlgPerfil ventana = new jDlgPerfil(null, true, manager,cod);
-                    dispose();
-                    ventana.pack();
-                    ventana.setVisible(true);
-                    
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(jFrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(jFrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    cont = cont + 1;
+                    JOptionPane.showMessageDialog(null, "Contraseña Incorrecta.\nLe quedan " + (3 - cont) + " intentos", "Sistema", JOptionPane.ERROR_MESSAGE);
+                    if (cont == 3) {
+                        jFrmPrincipal ventana = new jFrmPrincipal();
+                        dispose();
+                        ventana.setVisible(true);
+                    }
+
                 }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(jFrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(jFrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (DAOException ex) {
-            Logger.getLogger(jDlgLogin.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (Exception ex) {
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -187,9 +211,5 @@ public class jDlgLogin extends javax.swing.JDialog {
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
-  
-    
-    
-    
-    
+
 }
