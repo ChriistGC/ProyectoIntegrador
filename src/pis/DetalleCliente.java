@@ -66,9 +66,9 @@ public class DetalleCliente extends javax.swing.JPanel {
             telefono.setText(cliente.getTelefono());
             direccion.setText(cliente.getDireccion());
             correo.setText(cliente.getCorreo());
-            if (cliente.getSexo().toUpperCase() == "FEMENINO") {
+            if (cliente.getSexo().toUpperCase().equals("FEMENINO")) {
                 jRdBtnFem.setSelected(true);
-            } else if (cliente.getSexo().toUpperCase() == "MASCULINO") {
+            } else if (cliente.getSexo().toUpperCase().equals("MASCULINO")) {
                 jRdBtNMas.setSelected(true);
             }
             ciudad.setText(cliente.getCiudad());
@@ -140,18 +140,39 @@ public class DetalleCliente extends javax.swing.JPanel {
         ciudad = new javax.swing.JTextField();
         jRdBtNMas = new javax.swing.JRadioButton();
         jRdBtnFem = new javax.swing.JRadioButton();
+        jLabel7 = new javax.swing.JLabel();
 
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Código");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 14, -1, -1));
 
+        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nombres");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 56, -1, -1));
 
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Apellidos");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 98, -1, -1));
 
+        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Cedula");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 140, -1, -1));
 
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Telefono");
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 182, -1, -1));
 
+        jLabel6.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Direccion");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 224, -1, -1));
 
         codigo.setToolTipText("");
         codigo.addActionListener(new java.awt.event.ActionListener() {
@@ -159,33 +180,55 @@ public class DetalleCliente extends javax.swing.JPanel {
                 codigoActionPerformed(evt);
             }
         });
+        add(codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 14, 238, 28));
+        add(nombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 56, 238, 28));
 
         apellidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 apellidosActionPerformed(evt);
             }
         });
+        add(apellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 98, 238, 28));
+        add(cedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 140, 238, 28));
 
         telefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 telefonoActionPerformed(evt);
             }
         });
+        add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 182, 238, 28));
+        add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 224, 238, 28));
 
+        jLabel8.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Correo");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 266, -1, -1));
 
+        jLabel9.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Sexo");
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 308, -1, -1));
 
+        jLabel10.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Ciudad");
+        add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(56, 350, 84, 28));
+        add(correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 266, 238, 28));
+        add(ciudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 350, 238, 28));
 
         buttonGroup1.add(jRdBtNMas);
+        jRdBtNMas.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jRdBtNMas.setForeground(new java.awt.Color(255, 255, 255));
         jRdBtNMas.setText("Masculino");
         jRdBtNMas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRdBtNMasActionPerformed(evt);
             }
         });
+        add(jRdBtNMas, new org.netbeans.lib.awtextra.AbsoluteConstraints(196, 308, -1, -1));
 
+        jRdBtnFem.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jRdBtnFem.setForeground(new java.awt.Color(255, 255, 255));
         jRdBtnFem.setText("Femenino");
         buttonGroup1.add(jRdBtnFem);
         jRdBtnFem.addActionListener(new java.awt.event.ActionListener() {
@@ -193,82 +236,10 @@ public class DetalleCliente extends javax.swing.JPanel {
                 jRdBtnFemActionPerformed(evt);
             }
         });
+        add(jRdBtnFem, new org.netbeans.lib.awtextra.AbsoluteConstraints(308, 308, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nombres)
-                    .addComponent(codigo, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cedula)
-                    .addComponent(apellidos, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(direccion)
-                    .addComponent(telefono, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(correo)
-                    .addComponent(ciudad)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jRdBtNMas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRdBtnFem)
-                        .addGap(0, 26, Short.MAX_VALUE)))
-                .addGap(36, 36, 36))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(apellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(direccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jRdBtNMas)
-                    .addComponent(jRdBtnFem))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(ciudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Cascada.gif"))); // NOI18N
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 518));
     }// </editor-fold>//GEN-END:initComponents
 
     private void codigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codigoActionPerformed
@@ -307,6 +278,7 @@ public class DetalleCliente extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JRadioButton jRdBtNMas;
