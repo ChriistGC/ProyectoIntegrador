@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -26,6 +26,8 @@ public class jDlgPerfil extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.manager=manager;
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
         Datos();
     }
     
@@ -34,6 +36,8 @@ public class jDlgPerfil extends javax.swing.JDialog {
         initComponents();
         this.manager=manager;
         this.cod=cod;
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
         Datos();
     }
     

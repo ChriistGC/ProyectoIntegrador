@@ -27,6 +27,8 @@ public class jFrmPrincipal extends javax.swing.JFrame {
      */
     public jFrmPrincipal() {
         this.setContentPane(fondo);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
         initComponents();
     }
 

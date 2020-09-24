@@ -31,6 +31,8 @@ public class jDlgLogin extends javax.swing.JDialog {
         super(parent, modal);
         this.manager = manager;
         initComponents();
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
     }
 
     public void setBoton(String boton) {
