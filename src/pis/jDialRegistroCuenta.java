@@ -5,19 +5,71 @@
  */
 package pis;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import re.dao.DAOException;
+import re.dao.DAOManager;
+import re.dao.bd.OracleDaoManager;
+import reg.modelo.Actividad;
+import reg.modelo.Login;
+import reg.modelo.Usuario;
+
 /**
  *
  * @author Astaroth
  */
 public class jDialRegistroCuenta extends javax.swing.JDialog {
 
+    private Usuario user;
+    private Login login;
+    private DAOManager manager;
+    private String sexo;
+
     /**
      * Creates new form jDialRegistroCuenta
      */
-    public jDialRegistroCuenta(java.awt.Frame parent, boolean modal) {
+    public jDialRegistroCuenta(java.awt.Frame parent, boolean modal, DAOManager manager) {
         super(parent, modal);
+        this.manager = manager;
         initComponents();
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
+    }
+
+    public void loadUsuario() {
+        txtNombres.setText(user.getNombres());
+        txtApellidos.setText(user.getApellidos());
+        txtCorreo.setText(user.getCorreo());
+        txtCorreoConf.setText(user.getCorreo());
+    }
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
+    }
+
+    public Login getLogin() {
+        return login;
+    }
+
+    public void setLogin(Login login) {
+        this.login = login;
+    }
+
+    private void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    private String getSexo() {
+        return sexo;
     }
 
     /**
@@ -30,100 +82,163 @@ public class jDialRegistroCuenta extends javax.swing.JDialog {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        txtNombres = new RSMaterialComponent.RSTextFieldMaterial();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        JRmasculino = new javax.swing.JRadioButton();
-        JRfemenimo = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jLabel10 = new javax.swing.JLabel();
+        txtApellidos = new RSMaterialComponent.RSTextFieldMaterial();
         jLabel11 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtUsuario = new RSMaterialComponent.RSTextFieldMaterial();
+        jLabel7 = new javax.swing.JLabel();
+        txtCorreo = new RSMaterialComponent.RSTextFieldMaterial();
+        jLabel5 = new javax.swing.JLabel();
+        txtCorreoConf = new RSMaterialComponent.RSTextFieldMaterial();
+        jLabel6 = new javax.swing.JLabel();
+        txtPass = new RSMaterialComponent.RSPasswordMaterial();
+        jLabel8 = new javax.swing.JLabel();
+        rdMasculino = new rojerusan.RSRadioButton();
+        rdFemenino = new rojerusan.RSRadioButton();
+        jLabel12 = new javax.swing.JLabel();
+        txtCedula = new RSMaterialComponent.RSTextFieldMaterial();
+        btnRegistrar = new RSMaterialComponent.RSButtonMaterialIconUno();
+        jLabel9 = new javax.swing.JLabel();
+        fecha = new rojerusan.RSDateChooser();
+        jLabel10 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 364, 406, -1));
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombres:");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 84, 112, -1));
 
+        txtNombres.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtNombres.setPlaceholder("Ingrese nombres");
+        getContentPane().add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 300, 20));
+
         jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Apellidos:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 126, 84, -1));
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 84, 308, -1));
 
-        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Confirmar correo electronico ");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 280, -1, -1));
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 126, 308, -1));
+        txtApellidos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtApellidos.setPlaceholder("Ingrese apellidos");
+        getContentPane().add(txtApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 300, 20));
 
-        jLabel6.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Contraseña");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 336, 154, 14));
-        getContentPane().add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 308, 406, -1));
+        jLabel11.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Usuario");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 168, 84, -1));
+
+        txtUsuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtUsuario.setPlaceholder("Ingrese Usuario");
+        getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 170, 20));
 
         jLabel7.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Correo electronico\n");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 224, -1, -1));
-        getContentPane().add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 196, 406, -1));
+
+        txtCorreo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtCorreo.setPlaceholder("Ingrese Correo");
+        getContentPane().add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 400, 20));
+
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Confirmar correo electronico ");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 280, -1, -1));
+
+        txtCorreoConf.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtCorreoConf.setPlaceholder("Confirme Correo");
+        getContentPane().add(txtCorreoConf, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 400, 20));
+
+        jLabel6.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Contraseña");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 336, 154, 14));
+
+        txtPass.setPlaceholder("Ingrese Contraseña");
+        getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 400, 20));
 
         jLabel8.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Sexo:");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 434, 84, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 84, -1));
 
-        buttonGroup1.add(JRmasculino);
-        JRmasculino.setForeground(new java.awt.Color(255, 255, 255));
-        JRmasculino.setText("Masculino");
-        getContentPane().add(JRmasculino, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 462, -1, -1));
+        rdMasculino.setForeground(new java.awt.Color(255, 255, 255));
+        rdMasculino.setText("Masculino");
+        rdMasculino.setColorCheck(new java.awt.Color(255, 255, 255));
+        rdMasculino.setColorUnCheck(new java.awt.Color(255, 255, 255));
+        rdMasculino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdMasculinoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rdMasculino, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 110, -1));
+        buttonGroup1.add(rdMasculino);
 
-        buttonGroup1.add(JRfemenimo);
-        JRfemenimo.setForeground(new java.awt.Color(255, 255, 255));
-        JRfemenimo.setText("Femenino");
-        getContentPane().add(JRfemenimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 462, 84, -1));
+        rdFemenino.setForeground(new java.awt.Color(255, 255, 255));
+        rdFemenino.setText("Femenino");
+        rdFemenino.setColorCheck(new java.awt.Color(255, 255, 255));
+        rdFemenino.setColorUnCheck(new java.awt.Color(255, 255, 255));
+        rdFemenino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdFemeninoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rdFemenino, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 440, 110, -1));
+        buttonGroup1.add(rdFemenino);
 
-        jButton1.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
-        jButton1.setText("Registrarse");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(476, 504, -1, -1));
+        jLabel12.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Cédula:");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 170, -1, -1));
+
+        txtCedula.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtCedula.setPlaceholder("Ingrese Cedula");
+        txtCedula.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCedulaFocusLost(evt);
+            }
+        });
+        getContentPane().add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 190, 170, 20));
+
+        btnRegistrar.setBackground(new java.awt.Color(255, 255, 255));
+        btnRegistrar.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegistrar.setText("Registrarse");
+        btnRegistrar.setBackgroundHover(new java.awt.Color(204, 204, 204));
+        btnRegistrar.setForegroundHover(new java.awt.Color(0, 0, 0));
+        btnRegistrar.setForegroundIcon(new java.awt.Color(0, 0, 0));
+        btnRegistrar.setForegroundIconHover(new java.awt.Color(0, 0, 0));
+        btnRegistrar.setForegroundText(new java.awt.Color(0, 0, 0));
+        btnRegistrar.setIcons(rojeru_san.efectos.ValoresEnum.ICONS.PERM_IDENTITY);
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 500, 140, -1));
 
         jLabel9.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Fecha de nacimiento:");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 406, -1, 14));
 
-        jSpinner1.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
-        jSpinner1.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(1600895962880L), null, null, java.util.Calendar.DAY_OF_MONTH));
-        jSpinner1.setMinimumSize(new java.awt.Dimension(118, 24));
-        getContentPane().add(jSpinner1, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 406, 90, -1));
+        fecha.setFormatoFecha("dd/MM/yyyy");
+        fecha.setPlaceholder("Seleccione");
+        fecha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                fechaFocusLost(evt);
+            }
+        });
+        getContentPane().add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Trebuchet MS", 1, 36)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Regístrate ");
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 28, 182, -1));
-
-        jLabel11.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Usuario");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 168, 84, -1));
-        getContentPane().add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 252, 406, -1));
 
         jLabel3.setFont(new java.awt.Font("Trebuchet MS", 1, 24)); // NOI18N
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logo1.png"))); // NOI18N
@@ -135,10 +250,141 @@ public class jDialRegistroCuenta extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void rdFemeninoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdFemeninoActionPerformed
+        // TODO add your handling code here:
+        setSexo(rdFemenino.getText());
+    }//GEN-LAST:event_rdFemeninoActionPerformed
+
+    private void txtCedulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCedulaFocusLost
+        // TODO add your handling code here:
+        if (!txtCedula.getText().isEmpty()) {
+            try {
+                String ced = txtCedula.getText();
+                user = manager.getUsuarioDAO().obtenerUser(ced);
+                if (user != null) {
+                    login = manager.getLoginDAO().obtener(user.getCodigo());
+                    if (login != null) {
+                        JOptionPane.showMessageDialog(null, "Usuario ya registrado. \nInicie Sesión", "Sistema", JOptionPane.ERROR_MESSAGE);
+                        jFrmPrincipal ventana = new jFrmPrincipal();
+                        dispose();
+                        ventana.setVisible(true);
+                    } else {
+                        this.setUser(user);
+                        loadUsuario();
+                    }
+                }
+            } catch (DAOException ex) {
+                Logger.getLogger(PnVentas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_txtCedulaFocusLost
+
+    private void fechaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fechaFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaFocusLost
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        // TODO add your handling code here:
+        if (txtNombres.getText().isEmpty() && txtApellidos.getText().isEmpty() && txtUsuario.getText().isEmpty()
+                && txtCedula.getText().isEmpty() && txtCorreo.getText().isEmpty() && txtCorreoConf.getText().isEmpty()
+                && txtPass.getText().isEmpty() && fecha.getFechaSeleccionada().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Rellena todos los datos", "Sistema", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                if (user != null) {
+                    DateTimeFormatter date1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate fechanacimiento = LocalDate.parse(fecha.getFechaSeleccionada(), date1);
+                    LocalDate fechaactual = LocalDate.now();
+                    String fecha2 = fechaactual.format(date1);
+                    Period periodo = Period.between(fechanacimiento, fechaactual);
+                    if (periodo.getYears() <= 0 && periodo.getMonths() <= 0 && periodo.getDays() <= 0) {
+                        fecha.setLimpiarFecha(true);
+                        JOptionPane.showMessageDialog(null, "Ingrese una fecha valida", "Sistema", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        if (periodo.getYears() >= 18) {
+                            try {
+                                int id = 1;
+                                while (manager.getActividadDAO().obtener(id) != null) {
+                                    id++;
+                                }
+                                user.setSexo(getSexo());
+                                manager.getUsuarioDAO().modificar(user);
+                                Actividad act = new Actividad(id, user.getCodigo(), 0, "Realizado", "Actualizar", fecha2);
+                                manager.getActividadDAO().insertar(act);
+                                login = new Login(user.getCodigo(), 0, txtUsuario.getText(), String.valueOf(txtPass.getPassword()));
+                                setLogin(login);
+                                manager.getLoginDAO().insertar(login);
+                                dispose();
+                            } catch (DAOException ex) {
+                                Logger.getLogger(jDialRegistroCuenta.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            
+                        } else if (periodo.getYears() < 18) {
+                            JOptionPane.showMessageDialog(null, "Debe ser mayor de edad para registrarse", "Sistema", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                    }
+
+                } else {
+                    DateTimeFormatter date1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate fechanacimiento = LocalDate.parse(fecha.getFechaSeleccionada(), date1);
+                    LocalDate fechaactual = LocalDate.now();
+                    String fecha2 = fechaactual.format(date1);
+                    Period periodo = Period.between(fechanacimiento, fechaactual);
+                    if (periodo.getYears() <= 0 && periodo.getMonths() <= 0 && periodo.getDays() <= 0) {
+                        fecha.setLimpiarFecha(true);
+                        JOptionPane.showMessageDialog(null, "Ingrese una fecha valida", "Sistema", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        if (periodo.getYears() >= 18 && txtCorreo.getText().equals(txtCorreoConf.getText())) {
+                            try {
+                                int id = 1, id2 = 1;
+                                try {
+                                    
+                                    while (manager.getUsuarioDAO().obtener(id) != null) {
+                                        id++;
+                                    }
+                                    while (manager.getActividadDAO().obtener(id2) != null) {
+                                        id2++;
+                                    }
+                                    user = new Usuario(id, txtNombres.getText(), txtApellidos.getText(), txtCedula.getText(), null, "Indefinido", txtCorreoConf.getText(), getSexo(), "Indefinido");
+                                    manager.getUsuarioDAO().insertar(user);
+                                } catch (DAOException ex) {
+                                    Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                Actividad act = new Actividad(id2, id, 0, "Realizado", "Crear Usuario", fecha2);
+                                manager.getActividadDAO().insertar(act);
+                                login = new Login(id, 0, txtUsuario.getText(), String.valueOf(txtPass.getPassword()));
+                                setLogin(login);
+                                manager.getLoginDAO().insertar(login);
+                            } catch (DAOException ex) {
+                                Logger.getLogger(jDialRegistroCuenta.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else if (periodo.getYears() < 18) {
+                            JOptionPane.showMessageDialog(null, "Debe ser mayor de edad para registrarse", "Sistema", JOptionPane.ERROR_MESSAGE);
+                        } else if (txtCorreo.getText().equals(txtCorreoConf.getText())) {
+                            JOptionPane.showMessageDialog(null, "Los correos ingresados son diferentes", "Sistema", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+                jDialPerfil ventana = new jDialPerfil(null, true, manager, user.getCodigo(), login.getUsuario());
+                dispose();
+                ventana.pack();
+                ventana.setVisible(true);
+            } catch (DAOException ex) {
+                Logger.getLogger(jDialRegistroCuenta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void rdMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdMasculinoActionPerformed
+        // TODO add your handling code here:
+        setSexo(rdMasculino.getText());
+    }//GEN-LAST:event_rdMasculinoActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ClassNotFoundException, SQLException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -165,26 +411,33 @@ public class jDialRegistroCuenta extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                jDialRegistroCuenta dialog = new jDialRegistroCuenta(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                try {
+                    DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+                    jDialRegistroCuenta dialog = new jDialRegistroCuenta(new javax.swing.JFrame(), true, manager);
+                    dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                        @Override
+                        public void windowClosing(java.awt.event.WindowEvent e) {
+                            System.exit(0);
+                        }
+                    });
+                    dialog.setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(jDlgLogin.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(jDlgLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton JRfemenimo;
-    private javax.swing.JRadioButton JRmasculino;
+    private RSMaterialComponent.RSButtonMaterialIconUno btnRegistrar;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
+    private rojerusan.RSDateChooser fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -193,12 +446,14 @@ public class jDialRegistroCuenta extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private rojerusan.RSRadioButton rdFemenino;
+    private rojerusan.RSRadioButton rdMasculino;
+    private RSMaterialComponent.RSTextFieldMaterial txtApellidos;
+    private RSMaterialComponent.RSTextFieldMaterial txtCedula;
+    private RSMaterialComponent.RSTextFieldMaterial txtCorreo;
+    private RSMaterialComponent.RSTextFieldMaterial txtCorreoConf;
+    private RSMaterialComponent.RSTextFieldMaterial txtNombres;
+    private RSMaterialComponent.RSPasswordMaterial txtPass;
+    private RSMaterialComponent.RSTextFieldMaterial txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,6 +5,13 @@
  */
 package pis;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import re.dao.DAOException;
+import re.dao.DAOManager;
+import re.dao.bd.OracleDaoManager;
+
 /**
  *
  * @author Astaroth
@@ -14,11 +21,27 @@ public class JDlgRegiones extends javax.swing.JDialog {
     /**
      * Creates new form JDlgRegiones
      */
-    public JDlgRegiones(java.awt.Frame parent, boolean modal) {
+    
+    private DAOManager manager;
+    private double presupuesto;
+    private int cod;
+    
+    public JDlgRegiones(java.awt.Frame parent, boolean modal,DAOManager manager, double presupuesto) throws DAOException {
         super(parent, modal);
         initComponents();
+        this.manager = manager;
+        this.presupuesto=presupuesto;
         this.setLocationRelativeTo(null);
     }
+
+    public int getCod() {
+        return cod;
+    }
+
+    public void setCod(int cod) {
+        this.cod = cod;
+    }
+          
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,10 +53,10 @@ public class JDlgRegiones extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnGalapagos = new javax.swing.JButton();
+        btnCosta = new javax.swing.JButton();
+        btnOriente = new javax.swing.JButton();
+        btnSierra = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -46,37 +69,42 @@ public class JDlgRegiones extends javax.swing.JDialog {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Galapagos_region.gif"))); // NOI18N
-        jButton2.setText("jButton2");
-        jButton2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnGalapagos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Galapagos_region.gif"))); // NOI18N
+        btnGalapagos.setText("jButton2");
+        btnGalapagos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnGalapagos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnGalapagosActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(742, 238, 238, 154));
+        jPanel1.add(btnGalapagos, new org.netbeans.lib.awtextra.AbsoluteConstraints(742, 238, 238, 154));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/CostaEc.gif"))); // NOI18N
-        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(476, 14, 238, 154));
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Amazonia.gif"))); // NOI18N
-        jButton4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnCosta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/CostaEc.gif"))); // NOI18N
+        btnCosta.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCosta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnCostaActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(476, 238, 238, 154));
+        jPanel1.add(btnCosta, new org.netbeans.lib.awtextra.AbsoluteConstraints(476, 14, 238, 154));
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Quito1.gif"))); // NOI18N
-        jButton5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnOriente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Amazonia.gif"))); // NOI18N
+        btnOriente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnOriente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnOrienteActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(742, 14, 238, 154));
+        jPanel1.add(btnOriente, new org.netbeans.lib.awtextra.AbsoluteConstraints(476, 238, 238, 154));
+
+        btnSierra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Quito1.gif"))); // NOI18N
+        btnSierra.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnSierra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSierraActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnSierra, new org.netbeans.lib.awtextra.AbsoluteConstraints(742, 14, 238, 154));
 
         jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel2.setText("Sierra");
@@ -106,22 +134,61 @@ public class JDlgRegiones extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnSierraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSierraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        try {
+            jDialSeleccion ventana = new jDialSeleccion(null, true, manager, 2, presupuesto);
+            ventana.setVisible(true);
+            setCod(ventana.getCod());
+            ventana.pack();
+            dispose();
+        } catch (DAOException ex) {
+            Logger.getLogger(JDlgRegiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSierraActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnOrienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        try {
+            jDialSeleccion ventana = new jDialSeleccion(null, true, manager, 3, presupuesto);
+            ventana.setVisible(true);
+            setCod(ventana.getCod());
+            ventana.pack();
+            dispose();
+        } catch (DAOException ex) {
+            Logger.getLogger(JDlgRegiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnOrienteActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnGalapagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGalapagosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        try {
+            jDialSeleccion ventana = new jDialSeleccion(null, true, manager, 4, presupuesto);
+            ventana.setVisible(true);
+            setCod(ventana.getCod());
+            ventana.pack();
+            dispose();
+        } catch (DAOException ex) {
+            Logger.getLogger(JDlgRegiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnGalapagosActionPerformed
+
+    private void btnCostaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCostaActionPerformed
+        try {
+            jDialSeleccion ventana = new jDialSeleccion(null, true, manager, 1, presupuesto);
+            ventana.setVisible(true);
+            setCod(ventana.getCod());
+            ventana.pack();
+            dispose();
+        } catch (DAOException ex) {
+            Logger.getLogger(JDlgRegiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnCostaActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[])throws ClassNotFoundException, SQLException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -146,9 +213,10 @@ public class JDlgRegiones extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                JDlgRegiones dialog = new JDlgRegiones(new javax.swing.JFrame(), true);
+        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                JDlgRegiones dialog = new JDlgRegiones(new javax.swing.JFrame(), true, manager, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -156,15 +224,17 @@ public class JDlgRegiones extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
+            } catch (DAOException ex) {
+                Logger.getLogger(JDlgRegiones.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton btnCosta;
+    private javax.swing.JButton btnGalapagos;
+    private javax.swing.JButton btnOriente;
+    private javax.swing.JButton btnSierra;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

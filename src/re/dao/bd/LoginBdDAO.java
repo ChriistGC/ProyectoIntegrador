@@ -24,11 +24,12 @@ import reg.modelo.Login;
  */
 public class LoginBdDAO implements LoginDAO{
     
-    final String INSERT = "INSERT INTO login(id_usuario, id_administrador, id_agente, usuario, contrasena) values(?,?,?,?,?,?)";
-    final String UPDATE = "UPDATE login SET id_usuario = ?, id_administrador = ?, id_agente = ?, usuario = ?, contrasena = ? where id_usuario= ? ";
+    final String INSERT = "INSERT INTO login(id_usuario, usuario, contrasena) values(?,?,?)";
+    final String UPDATE = "UPDATE login SET id_usuario = ?, id_empleado = ?, usuario = ?, contrasena = ? where id_usuario= ? ";
     final String DELETE = "DELETE FROM login where id_usuario=?";
     final String GETALL = "SELECT * FROM login";
-    final String GET0NE = "SELECT * FROM login where usuario=?";
+    final String GET0NE = "SELECT * FROM login where id_usuario=?";
+    final String GET0NE2 = "SELECT * FROM login where usuario=?";
     
     private Connection conn;
     
@@ -44,20 +45,18 @@ public class LoginBdDAO implements LoginDAO{
 
             stmt = conn.prepareStatement(INSERT);
             stmt.setInt(1, a.getIdUsuario());
-            stmt.setInt(2, a.getIdAdmin());
-            stmt.setInt(3, a.getIdAgenVenta());
-            stmt.setString(4, a.getUsuario());
-            stmt.setString(5, a.getContraseña());
+            stmt.setString(2, a.getUsuario());
+            stmt.setString(3, a.getContraseña());
 
             rows = stmt.executeUpdate();
             System.out.println("Registros afectados:" + rows);
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 stmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -70,23 +69,22 @@ public class LoginBdDAO implements LoginDAO{
 
             stmt = conn.prepareStatement(UPDATE);
             stmt.setInt(1, a.getIdUsuario());
-            stmt.setInt(2, a.getIdAdmin());
-            stmt.setInt(3, a.getIdAgenVenta());
-            stmt.setString(4, a.getUsuario());
-            stmt.setString(5, a.getContraseña());
-            stmt.setInt(6, a.getIdUsuario());
+            stmt.setInt(2, a.getIdEmpleado());
+            stmt.setString(3, a.getUsuario());
+            stmt.setString(4, a.getContraseña());
+            stmt.setInt(5, a.getIdUsuario());
 
             if (stmt.executeUpdate() == 0) {
                 throw new DAOException("El registro no se ha modificado");
             }
            
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 stmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -105,12 +103,12 @@ public class LoginBdDAO implements LoginDAO{
             }
            
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 stmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -128,12 +126,12 @@ public class LoginBdDAO implements LoginDAO{
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 stmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -141,7 +139,31 @@ public class LoginBdDAO implements LoginDAO{
     }
 
     @Override
-    public Login obtener(Integer id) throws DAOException {return null;}
+    public Login obtener(Integer id) throws DAOException {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Login log = null;
+        try {
+            stmt = conn.prepareStatement(GET0NE);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                log = convertir(rs);
+            } else {
+//                throw new DAOException("No se encontro el registro");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return log;
+    }
     
     @Override
     public Login obtenerUser(String usuario) throws DAOException {
@@ -149,7 +171,7 @@ public class LoginBdDAO implements LoginDAO{
         ResultSet rs = null;
         Login log = null;
         try {
-            stmt = conn.prepareStatement(GET0NE);
+            stmt = conn.prepareStatement(GET0NE2);
             stmt.setString(1, usuario);
             rs = stmt.executeQuery();
             if (rs.next()) {
@@ -160,12 +182,12 @@ public class LoginBdDAO implements LoginDAO{
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 stmt.close();
             } catch (SQLException ex) {
-                Logger.getLogger(ClienteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LoginBdDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -174,13 +196,15 @@ public class LoginBdDAO implements LoginDAO{
     
     private Login convertir(ResultSet rs) throws SQLException { //Java: JDBC – 14
         int idUsuario=rs.getInt("id_usuario");
-        int idAdmin=rs.getInt("id_administrador");
-        int idAgenVenta=rs.getInt("id_agente");
+        int idEmpleado=rs.getInt("id_empleado");
         String usuario=rs.getString("usuario");
         String contraseña=rs.getString("contrasena");
-        Login log = new Login(idUsuario, idAdmin, idAgenVenta, usuario, contraseña);
+        Login log = new Login(idUsuario, idEmpleado, usuario, contraseña);
         log.setIdUsuario(rs.getInt("id_usuario"));//revisar
         return log;
     }
+
+    @Override
+    public List<Login> obtenerLista(Integer a) throws DAOException {return null;}
     
 }

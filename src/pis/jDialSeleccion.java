@@ -5,6 +5,15 @@
  */
 package pis;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
+import re.dao.DAOException;
+import re.dao.DAOManager;
+import re.dao.bd.OracleDaoManager;
+
 /**
  *
  * @author Astaroth
@@ -14,12 +23,38 @@ public class jDialSeleccion extends javax.swing.JDialog {
     /**
      * Creates new form jDialSeleccion
      */
-    public jDialSeleccion(java.awt.Frame parent, boolean modal) {
+    private DAOManager manager;
+    private PaqueteTableModel model;
+    private TableRowSorter trsFiltro;
+    private int cod;
+    
+    public jDialSeleccion(java.awt.Frame parent, boolean modal, DAOManager manager) throws DAOException {
         super(parent, modal);
         initComponents();
+        this.manager = manager;
         this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
+
+    public jDialSeleccion(java.awt.Frame parent, boolean modal, DAOManager manager, int cod, double presupuesto) throws DAOException {
+        super(parent, modal);
+        initComponents();
+        this.manager = manager;
+        this.model = new PaqueteTableModel(manager.getPaqueteDAO());
+        model.setPresupuesto(presupuesto);
+        this.model.updateModel(cod);
+        tableDestino.setModel(model);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+    }
+
+    public int getCod() {
+        return cod;
+    }
+
+    public void setCod(int cod) {
+        this.cod = cod;
+    }       
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,13 +65,17 @@ public class jDialSeleccion extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableDestino = new rojeru_san.complementos.RSTableMetro();
+        rdReservas = new rojerusan.RSRadioButton();
+        rdPlayas = new rojerusan.RSRadioButton();
+        rdRios = new rojerusan.RSRadioButton();
+        rdCascadas = new rojerusan.RSRadioButton();
+        rdZoologicos = new rojerusan.RSRadioButton();
+        rSLabelSombra1 = new rojeru_san.rslabel.RSLabelSombra();
+        txtSeleccion = new rojeru_san.rsfield.RSTextField();
+        rSButtonIconUno1 = new RSMaterialComponent.RSButtonIconUno();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -44,42 +83,92 @@ public class jDialSeleccion extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableDestino.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Direccion", "Presupuesto", "Lugar", "Ciudad"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tableDestino.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableDestinoMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tableDestino);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(84, 252, 840, 196));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 970, 180));
 
-        jCheckBox1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jCheckBox1.setForeground(new java.awt.Color(0, 255, 255));
-        jCheckBox1.setText("Playas");
-        getContentPane().add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 84, 70, -1));
+        rdReservas.setText("Reservas");
+        rdReservas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdReservasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rdReservas, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 110, -1));
+        buttonGroup1.add(rdReservas);
 
-        jCheckBox2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jCheckBox2.setForeground(new java.awt.Color(0, 255, 255));
-        jCheckBox2.setText("Rios");
-        getContentPane().add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 126, 70, -1));
+        rdPlayas.setText("Playas");
+        rdPlayas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdPlayasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rdPlayas, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 90, -1));
+        buttonGroup1.add(rdPlayas);
 
-        jCheckBox3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jCheckBox3.setForeground(new java.awt.Color(0, 255, 255));
-        jCheckBox3.setText("Cascadas");
-        getContentPane().add(jCheckBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 168, -1, -1));
+        rdRios.setText("Rios");
+        rdRios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdRiosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rdRios, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 80, -1));
+        buttonGroup1.add(rdRios);
 
-        jCheckBox4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jCheckBox4.setForeground(new java.awt.Color(0, 255, 255));
-        jCheckBox4.setText("Zoologicos");
-        getContentPane().add(jCheckBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 210, -1, -1));
+        rdCascadas.setText("Cascadas");
+        rdCascadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdCascadasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rdCascadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 110, -1));
+        buttonGroup1.add(rdCascadas);
 
-        jCheckBox5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jCheckBox5.setForeground(new java.awt.Color(0, 255, 255));
-        jCheckBox5.setText("Reservas");
-        getContentPane().add(jCheckBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 42, -1, -1));
+        rdZoologicos.setText("Zoologicos");
+        rdZoologicos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdZoologicosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rdZoologicos, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 120, -1));
+        buttonGroup1.add(rdZoologicos);
+
+        rSLabelSombra1.setForeground(new java.awt.Color(255, 255, 255));
+        rSLabelSombra1.setText("Ha seleccionado:");
+        rSLabelSombra1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        getContentPane().add(rSLabelSombra1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, -1, -1));
+
+        txtSeleccion.setPlaceholder("Seleccione un lugar turistico...");
+        txtSeleccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSeleccionActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtSeleccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 400, 510, -1));
+
+        rSButtonIconUno1.setBackground(new java.awt.Color(153, 153, 153));
+        rSButtonIconUno1.setBackgroundHover(new java.awt.Color(102, 102, 102));
+        rSButtonIconUno1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSButtonIconUno1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rSButtonIconUno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 400, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -96,10 +185,60 @@ public class jDialSeleccion extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tableDestinoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDestinoMouseClicked
+        // TODO add your handling code here:
+        txtSeleccion.setText((String) tableDestino.getValueAt(tableDestino.getSelectedRow(), 5));
+        setCod((Integer) tableDestino.getValueAt(tableDestino.getSelectedRow(), 0));
+    }//GEN-LAST:event_tableDestinoMouseClicked
+
+    private void rdPlayasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdPlayasActionPerformed
+        // TODO add your handling code here:
+        trsFiltro = new TableRowSorter(tableDestino.getModel());
+        tableDestino.setRowSorter(trsFiltro);
+        trsFiltro.setRowFilter(RowFilter.regexFilter(this.rdPlayas.getText().toUpperCase(),4));    
+    }//GEN-LAST:event_rdPlayasActionPerformed
+
+    private void rdReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdReservasActionPerformed
+        // TODO add your handling code here:
+        trsFiltro = new TableRowSorter(tableDestino.getModel());
+        tableDestino.setRowSorter(trsFiltro);
+        trsFiltro.setRowFilter(RowFilter.regexFilter(this.rdReservas.getText().toUpperCase(),4));        
+    }//GEN-LAST:event_rdReservasActionPerformed
+
+    private void rdCascadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdCascadasActionPerformed
+        // TODO add your handling code here:
+        trsFiltro = new TableRowSorter(tableDestino.getModel());
+        tableDestino.setRowSorter(trsFiltro);
+        trsFiltro.setRowFilter(RowFilter.regexFilter(this.rdCascadas.getText().toUpperCase(),4));    
+    }//GEN-LAST:event_rdCascadasActionPerformed
+
+    private void rdRiosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdRiosActionPerformed
+        // TODO add your handling code here:
+        trsFiltro = new TableRowSorter(tableDestino.getModel());
+        tableDestino.setRowSorter(trsFiltro);
+        trsFiltro.setRowFilter(RowFilter.regexFilter(this.rdRios.getText().toUpperCase(),4));    
+    }//GEN-LAST:event_rdRiosActionPerformed
+
+    private void rdZoologicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdZoologicosActionPerformed
+        // TODO add your handling code here:
+        trsFiltro = new TableRowSorter(tableDestino.getModel());
+        tableDestino.setRowSorter(trsFiltro);
+        trsFiltro.setRowFilter(RowFilter.regexFilter(this.rdZoologicos.getText().toUpperCase(),4));    
+    }//GEN-LAST:event_rdZoologicosActionPerformed
+
+    private void txtSeleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSeleccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSeleccionActionPerformed
+
+    private void rSButtonIconUno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonIconUno1ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_rSButtonIconUno1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws ClassNotFoundException, SQLException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -124,9 +263,10 @@ public class jDialSeleccion extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                jDialSeleccion dialog = new jDialSeleccion(new javax.swing.JFrame(), true);
+        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                jDialSeleccion dialog = new jDialSeleccion(new javax.swing.JFrame(), true, manager, 1,88.8);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -134,20 +274,26 @@ public class jDialSeleccion extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
+            } catch (DAOException ex) {
+                Logger.getLogger(jDialSeleccion.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private RSMaterialComponent.RSButtonIconUno rSButtonIconUno1;
+    private rojeru_san.rslabel.RSLabelSombra rSLabelSombra1;
+    private rojerusan.RSRadioButton rdCascadas;
+    private rojerusan.RSRadioButton rdPlayas;
+    private rojerusan.RSRadioButton rdReservas;
+    private rojerusan.RSRadioButton rdRios;
+    private rojerusan.RSRadioButton rdZoologicos;
+    private rojeru_san.complementos.RSTableMetro tableDestino;
+    private rojeru_san.rsfield.RSTextField txtSeleccion;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,16 +12,14 @@ package reg.modelo;
 public class Login {
     
     private int idUsuario;
-    private int idAdmin;
-    private int idAgenVenta;
+    private int idEmpleado;
     private String Usuario;
     private String Contraseña;
     
     public Login(){}
-    public Login(int idUsuario,int idAdmin, int idAgenVenta, String Usuario, String Contraseña){
+    public Login(int idUsuario,int idEmpleado, String Usuario, String Contraseña){
         this.setIdUsuario(idUsuario);
-        this.setIdAdmin(idAdmin);
-        this.setIdAgenVenta(idAgenVenta);
+        this.setIdEmpleado(idEmpleado);
         this.setUsuario(Usuario);
         this.setContraseña(Contraseña);
     }
@@ -34,20 +32,12 @@ public class Login {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdAdmin() {
-        return idAdmin;
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
-    public void setIdAdmin(int idAdmin) {
-        this.idAdmin = idAdmin;
-    }
-
-    public int getIdAgenVenta() {
-        return idAgenVenta;
-    }
-
-    public void setIdAgenVenta(int idAgenVenta) {
-        this.idAgenVenta = idAgenVenta;
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 
     public String getUsuario() {

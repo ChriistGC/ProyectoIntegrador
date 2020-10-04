@@ -5,6 +5,8 @@
  */
 package pis;
 
+import rscomponentshade.RSTextFieldShade;
+
 /**
  *
  * @author Astaroth
@@ -20,6 +22,10 @@ public class jDialPresupuesto extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
     }
 
+    public String getTxtPresupuesto() {
+        return txtPresupuesto.getValue().toString();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,8 +36,8 @@ public class jDialPresupuesto extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        txtPresupuesto = new rscomponentshade.RSFormatFieldShade();
+        rSButtonCircle1 = new rojerusan.RSButtonCircle();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -40,17 +46,23 @@ public class jDialPresupuesto extends javax.swing.JDialog {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+        txtPresupuesto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        txtPresupuesto.setPlaceholder("Ingrese su presupuesto");
+        txtPresupuesto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPresupuestoKeyTyped(evt);
             }
         });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(322, 280, 182, 28));
+        jPanel1.add(txtPresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel2.setText("Presupuesto");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(364, 322, -1, -1));
+        rSButtonCircle1.setBackground(new java.awt.Color(255, 255, 255));
+        rSButtonCircle1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ok.png"))); // NOI18N
+        rSButtonCircle1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSButtonCircle1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(rSButtonCircle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 270, 50, 50));
 
         jLabel6.setFont(new java.awt.Font("Trebuchet MS", 1, 24)); // NOI18N
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logo1.png"))); // NOI18N
@@ -64,9 +76,19 @@ public class jDialPresupuesto extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void rSButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonCircle1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        dispose();
+        
+    }//GEN-LAST:event_rSButtonCircle1ActionPerformed
+
+    private void txtPresupuestoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPresupuestoKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0')|| (caracter > '9'))&& (caracter != '\b' /*corresponde a BACK_SPACE*/) && (caracter != ',')) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_txtPresupuestoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -112,9 +134,9 @@ public class jDialPresupuesto extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private rojerusan.RSButtonCircle rSButtonCircle1;
+    private rscomponentshade.RSFormatFieldShade txtPresupuesto;
     // End of variables declaration//GEN-END:variables
 }
