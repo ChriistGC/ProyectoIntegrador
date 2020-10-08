@@ -43,7 +43,9 @@ public class ActividadBdDAO implements ActividadDAO{
 
             stmt = conn.prepareStatement(INSERT);
             stmt.setInt(1, a.getId_registro());
+            if(a.getId_usuario()!=0){
             stmt.setInt(2, a.getId_usuario());
+            }else{stmt.setString(2, null);}
             if (a.getId_empleado()!= 0) {
                 stmt.setInt(3, a.getId_empleado());
             }else{stmt.setString(3, null);}

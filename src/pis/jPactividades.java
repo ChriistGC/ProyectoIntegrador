@@ -5,17 +5,35 @@
  */
 package pis;
 
+import java.sql.SQLException;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
+import re.dao.DAOException;
+import re.dao.DAOManager;
+
 /**
  *
  * @author Astaroth
  */
 public class jPactividades extends javax.swing.JPanel {
+    private Actividadempleado model;
+    private TableRowSorter trsFiltro;
 
     /**
      * Creates new form jPactividades
      */
     public jPactividades() {
         initComponents();
+    }
+    
+    public void llenarTabla(DAOManager manager, int cod)throws DAOException, ClassNotFoundException, SQLException{
+        this.model = new Actividadempleado(manager.getActividadDAO());
+        this.model.updateModel();
+        tableActividad.setModel(model);
+        trsFiltro = new TableRowSorter(tableActividad.getModel());
+        tableActividad.setRowSorter(trsFiltro);
+        System.out.println(cod);
+        trsFiltro.setRowFilter(RowFilter.regexFilter(String.valueOf(cod),0));    
     }
 
     /**
@@ -37,7 +55,7 @@ public class jPactividades extends javax.swing.JPanel {
         jBtadministrador = new rojeru_san.rsbutton.RSButtonRound();
         jBtempleado = new rojeru_san.rsbutton.RSButtonRound();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTableregisactivid = new rojerusan.RSTableMetro1();
+        tableActividad = new rojerusan.RSTableMetro1();
         jBtgenerar = new rojeru_san.rsbutton.RSButtonRound();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -88,7 +106,7 @@ public class jPactividades extends javax.swing.JPanel {
 
         rSPanelVector2.add(rSPanelVector3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 620, 900, 70));
 
-        jTableregisactivid.setModel(new javax.swing.table.DefaultTableModel(
+        tableActividad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -99,13 +117,13 @@ public class jPactividades extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTableregisactivid.setBackgoundHead(new java.awt.Color(121, 116, 210));
-        jTableregisactivid.setBackgoundHover(new java.awt.Color(121, 116, 210));
-        jTableregisactivid.setColorPrimaryText(new java.awt.Color(121, 116, 210));
-        jTableregisactivid.setColorSecundaryText(new java.awt.Color(121, 116, 210));
-        jTableregisactivid.setOpaque(false);
-        jTableregisactivid.setSelectionBackground(new java.awt.Color(121, 116, 210));
-        jScrollPane2.setViewportView(jTableregisactivid);
+        tableActividad.setBackgoundHead(new java.awt.Color(121, 116, 210));
+        tableActividad.setBackgoundHover(new java.awt.Color(121, 116, 210));
+        tableActividad.setColorPrimaryText(new java.awt.Color(121, 116, 210));
+        tableActividad.setColorSecundaryText(new java.awt.Color(121, 116, 210));
+        tableActividad.setOpaque(false);
+        tableActividad.setSelectionBackground(new java.awt.Color(121, 116, 210));
+        jScrollPane2.setViewportView(tableActividad);
 
         rSPanelVector2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 700, 420));
 
@@ -129,10 +147,10 @@ public class jPactividades extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
-    private rojerusan.RSTableMetro1 jTableregisactivid;
     private rojeru_san.RSLabelFecha rSLabelFecha1;
     private rojeru_san.rsdate.RSLabelHora rSLabelHora1;
     private rojeru_san.rspanel.RSPanelVector rSPanelVector2;
     private rojeru_san.rspanel.RSPanelVector rSPanelVector3;
+    private rojerusan.RSTableMetro1 tableActividad;
     // End of variables declaration//GEN-END:variables
 }

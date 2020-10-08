@@ -5,11 +5,14 @@
  */
 package pis;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import re.dao.DAOException;
 import re.dao.DAOManager;
+import reg.modelo.Actividad;
 import reg.modelo.Empleado;
 import reg.modelo.Login;
 
@@ -25,6 +28,7 @@ public class PnPerfil extends javax.swing.JPanel {
     
     private DAOManager manager;
     private Empleado empleado;
+    private Actividad act;
     private Login login;
     private boolean editable;
     Empleado2 ventana2;//Poner mi ventana 
@@ -349,6 +353,11 @@ public class PnPerfil extends javax.swing.JPanel {
         jbtactualizar.setText("Actualizar datos");
         jbtactualizar.setColorBorde(new java.awt.Color(43, 43, 43));
         jbtactualizar.setColorHover(new java.awt.Color(51, 51, 51));
+        jbtactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtactualizarActionPerformed(evt);
+            }
+        });
         rSPanelVector2.add(jbtactualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 590, -1, -1));
 
         jLabel13.setFont(new java.awt.Font("Trajan Pro", 1, 36)); // NOI18N
@@ -445,14 +454,34 @@ public class PnPerfil extends javax.swing.JPanel {
 
     private void JBTguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBTguardarActionPerformed
         // TODO add your handling code here:
+        int id = 1;
+        try {
+
+            while (manager.getActividadDAO().obtener(id) != null) {
+                id++;
+            }
+
+        } catch (DAOException ex) {
+            Logger.getLogger(Perfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DateTimeFormatter date1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fechaactual = LocalDate.now();
+        String fecha = fechaactual.format(date1);
+        act = new Actividad(id, 0, empleado.getCod_empleado(), "Realizado", "Actualizar", fecha);
         saveData();
         try {
+            manager.getActividadDAO().insertar(act);
             manager.getEmpleadoDAO().modificar(empleado);
             JOptionPane.showMessageDialog(null, "Se ha actualizado su información", "Sistema", JOptionPane.INFORMATION_MESSAGE);
         } catch (DAOException ex) {
             Logger.getLogger(PnPerfil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_JBTguardarActionPerformed
+
+    private void jbtactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtactualizarActionPerformed
+        // TODO add your handling code here:
+        setEditable(true);
+    }//GEN-LAST:event_jbtactualizarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -12,6 +12,7 @@ import re.dao.DAOException;
 import re.dao.DAOManager;
 import re.dao.bd.OracleDaoManager;
 import reg.modelo.Empleado;
+import reg.modelo.Factura;
 import reg.modelo.Login;
 import rojerusan.RSPanelsSlider;
 /**
@@ -23,6 +24,7 @@ public class Empleado2 extends javax.swing.JDialog {
     private Login login;
     private DAOManager manager;
     private Empleado empleado;
+    private Factura factura;
     private int cod;
     private String user;
     
@@ -52,6 +54,11 @@ public class Empleado2 extends javax.swing.JDialog {
     private Login getLoginSeleccionado() throws DAOException {
         return manager.getLoginDAO().obtenerUser(user);
     }
+    
+    private Factura getfacturaSeleccionado() throws DAOException {
+        return manager.getFacturaDAO().obtenerUser(user);
+    }
+    
     public void datos(){
         
         try {
@@ -66,6 +73,14 @@ public class Empleado2 extends javax.swing.JDialog {
         } catch (DAOException ex) {
             Logger.getLogger(Empleado2.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 
     public JLabel getjLbnombreemp() {
@@ -319,6 +334,16 @@ public class Empleado2 extends javax.swing.JDialog {
             this.jBventas.setSelected(false);
             this.jBActividades.setSelected(false);
             this.jBreportes.setSelected(true);
+            try {
+                Factura cl = getfacturaSeleccionado();
+                this.jPregistros2.llenarTabla(manager);
+            } catch (DAOException ex) {
+                Logger.getLogger(Empleado2.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Empleado2.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Empleado2.class.getName()).log(Level.SEVERE, null, ex);
+            }
             rSPanelsSlider1.setPanelSlider(1, pnl4, RSPanelsSlider.DIRECT.RIGHT);
         }
     }//GEN-LAST:event_jBreportesActionPerformed
@@ -348,8 +373,20 @@ public class Empleado2 extends javax.swing.JDialog {
             this.jBventas.setSelected(false);
             this.jBActividades.setSelected(true);
             this.jBreportes.setSelected(false);
-            rSPanelsSlider1.setPanelSlider(1, pnl2, RSPanelsSlider.DIRECT.RIGHT);
+           
         }
+        try {
+                Empleado cl = getEmpleadoSeleccionado();
+                this.jPactividades1.llenarTabla(manager, cl.getCod_empleado());
+            } catch (DAOException ex) {
+                Logger.getLogger(Empleado2.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Empleado2.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Empleado2.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            rSPanelsSlider1.setPanelSlider(1, pnl2, RSPanelsSlider.DIRECT.RIGHT);
     }//GEN-LAST:event_jBActividadesActionPerformed
 
     private void jBperfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBperfilActionPerformed

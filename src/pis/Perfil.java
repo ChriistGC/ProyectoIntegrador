@@ -66,6 +66,10 @@ public class Perfil extends javax.swing.JPanel {
         return editable;
     }
 
+    public void setAct(Actividad act) {
+        this.act = act;
+    }    
+    
     public void setEditable(boolean editable) {
         this.editable = editable;
         txtCodigo.setEditable(false);
@@ -623,6 +627,7 @@ public class Perfil extends javax.swing.JPanel {
         LocalDate fechaactual = LocalDate.now();
         String fecha = fechaactual.format(date1);
         act = new Actividad(id, usuario.getCodigo(), 0, "Realizado", "Actualizar", fecha);
+        setAct(act);
         saveData();
         try {
             manager.getActividadDAO().insertar(act);
@@ -656,6 +661,7 @@ public class Perfil extends javax.swing.JPanel {
                 DetalleFactura detfac = manager.getDetalleFacturaDAO().obtener(usuario.getCodigo());
                 manager.getLoginDAO().eliminar(login);
                 manager.getDetalleFacturaDAO().eliminar(detfac);
+                manager.getActividadDAO().eliminar(act);
                 manager.getUsuarioDAO().eliminar(usuario);
 
                 ventana2.dispose();

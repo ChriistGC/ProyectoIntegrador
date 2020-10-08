@@ -5,17 +5,31 @@
  */
 package pis;
 
+import java.sql.SQLException;
+import javax.swing.table.TableRowSorter;
+import re.dao.DAOException;
+import re.dao.DAOManager;
+
 /**
  *
  * @author Astaroth
  */
 public class jPregistros extends javax.swing.JPanel {
+    
+    private registrofactura model;
+    private TableRowSorter trsFiltro;
 
     /**
      * Creates new form jPactividades
      */
     public jPregistros() {
         initComponents();
+    }
+    
+    public void llenarTabla(DAOManager manager)throws DAOException, ClassNotFoundException, SQLException{
+        this.model = new registrofactura(manager.getFacturaDAO());
+        this.model.updateModel();
+        tableActividad.setModel(model);
     }
 
     /**
@@ -36,7 +50,7 @@ public class jPregistros extends javax.swing.JPanel {
         rSPanelVector3 = new rojeru_san.rspanel.RSPanelVector();
         jBtventasgenerar = new rojeru_san.rsbutton.RSButtonRound();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTableregisventas = new rojerusan.RSTableMetro1();
+        tableActividad = new rojerusan.RSTableMetro1();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -78,7 +92,7 @@ public class jPregistros extends javax.swing.JPanel {
 
         rSPanelVector2.add(rSPanelVector3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 620, 900, 70));
 
-        jTableregisventas.setModel(new javax.swing.table.DefaultTableModel(
+        tableActividad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -89,13 +103,13 @@ public class jPregistros extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTableregisventas.setBackgoundHead(new java.awt.Color(51, 51, 51));
-        jTableregisventas.setBackgoundHover(new java.awt.Color(121, 116, 210));
-        jTableregisventas.setColorPrimaryText(new java.awt.Color(121, 116, 210));
-        jTableregisventas.setColorSecundaryText(new java.awt.Color(121, 116, 210));
-        jTableregisventas.setOpaque(false);
-        jTableregisventas.setSelectionBackground(new java.awt.Color(121, 116, 210));
-        jScrollPane2.setViewportView(jTableregisventas);
+        tableActividad.setBackgoundHead(new java.awt.Color(51, 51, 51));
+        tableActividad.setBackgoundHover(new java.awt.Color(121, 116, 210));
+        tableActividad.setColorPrimaryText(new java.awt.Color(121, 116, 210));
+        tableActividad.setColorSecundaryText(new java.awt.Color(121, 116, 210));
+        tableActividad.setOpaque(false);
+        tableActividad.setSelectionBackground(new java.awt.Color(121, 116, 210));
+        jScrollPane2.setViewportView(tableActividad);
 
         rSPanelVector2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 700, 420));
 
@@ -109,10 +123,10 @@ public class jPregistros extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane2;
-    private rojerusan.RSTableMetro1 jTableregisventas;
     private rojeru_san.RSLabelFecha rSLabelFecha1;
     private rojeru_san.rsdate.RSLabelHora rSLabelHora1;
     private rojeru_san.rspanel.RSPanelVector rSPanelVector2;
     private rojeru_san.rspanel.RSPanelVector rSPanelVector3;
+    private rojerusan.RSTableMetro1 tableActividad;
     // End of variables declaration//GEN-END:variables
 }
