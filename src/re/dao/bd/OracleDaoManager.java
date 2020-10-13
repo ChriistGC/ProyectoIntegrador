@@ -11,7 +11,6 @@ import re.dao.EmpleadoDAO;
 import re.dao.FacturaDAO;
 import re.dao.LoginDAO;
 import re.dao.PaqueteDAO;
-import re.dao.PruebDAO;
 import re.dao.RegionDAO;
 import re.dao.UsuarioDAO;
 
@@ -26,7 +25,6 @@ public class OracleDaoManager implements DAOManager {
     private ActividadDAO actividad=null;
     private PaqueteDAO paquete=null;
     private RegionDAO region=null;
-    private PruebDAO prueba=null;
     private FacturaDAO factura=null;
     private DetalleFacturaDAO detalleFactura=null;
     private EmpleadoDAO empleado=null;
@@ -80,15 +78,6 @@ public class OracleDaoManager implements DAOManager {
             region=new RegionBdDAO(conn);
         }
         return region;
-    }
-
-    @Override
-    public PruebDAO getPruebDAO() {
-        if(prueba==null){
-            prueba=new PruebBdDAO(conn);
-        }
-        
-        return prueba;
     }
 
     @Override

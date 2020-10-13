@@ -141,7 +141,7 @@ public class jDlgLogin extends javax.swing.JDialog {
             try {
                 if (login.getUsuario().equals(jTextField1.getText()) && login.getContraseña().equals(String.valueOf(jPasswordField2.getPassword()))) {
 
-                    DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+                    DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "turistapp", "042395");
                     int cod = 0;
                     if (login.getIdUsuario() != 0 && boton.equals("Usuario")) {
                         cod = login.getIdUsuario();
@@ -183,6 +183,9 @@ public class jDlgLogin extends javax.swing.JDialog {
 
     private void rSButtonCustom2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonCustom2ActionPerformed
         dispose();
+        jFrmPrincipal ventana= new jFrmPrincipal();
+        ventana.setVisible(true);
+        ventana.pack();
     }//GEN-LAST:event_rSButtonCustom2ActionPerformed
 
     /**
@@ -216,7 +219,7 @@ public class jDlgLogin extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+                    DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "turistapp", "042395");
                     jDlgLogin dialog = new jDlgLogin(new javax.swing.JFrame(), true, manager);
                     dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override

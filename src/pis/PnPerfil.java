@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import re.dao.DAOException;
 import re.dao.DAOManager;
@@ -74,8 +76,8 @@ public class PnPerfil extends javax.swing.JPanel {
         this.editable = editable;
         this.jTxidempleado.setEditable(false);
         this.jTxcedula.setEditable(false);
-        this.jTxnombres.setEditable(editable);
-        this.jTxapellidos.setEditable(editable);
+        this.jTxnombres.setEditable(false);
+        this.jTxapellidos.setEditable(false);
         this.jTxtelefono.setEditable(editable);
         this.jTxdireccion.setEditable(editable);
         this.jTcorreo.setEditable(editable);
@@ -146,7 +148,6 @@ public class PnPerfil extends javax.swing.JPanel {
         jTxsexo = new rojeru_san.RSMTextFull();
         jLabel5 = new javax.swing.JLabel();
         jTxcedula = new rojeru_san.RSMTextFull();
-        jLbeliminarcuenta = new javax.swing.JLabel();
         jTxnombres = new rojeru_san.RSMTextFull();
         jLabel7 = new javax.swing.JLabel();
         jTxidempleado = new rojeru_san.RSMTextFull();
@@ -226,16 +227,6 @@ public class PnPerfil extends javax.swing.JPanel {
         });
         rSPanelVector2.add(jTxcedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 460, -1, 40));
 
-        jLbeliminarcuenta.setFont(new java.awt.Font("Trajan Pro", 1, 12)); // NOI18N
-        jLbeliminarcuenta.setForeground(new java.awt.Color(51, 51, 51));
-        jLbeliminarcuenta.setText("Eliminar cuenta");
-        jLbeliminarcuenta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLbeliminarcuentaMouseClicked(evt);
-            }
-        });
-        rSPanelVector2.add(jLbeliminarcuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 670, -1, -1));
-
         jTxnombres.setBackground(new java.awt.Color(204, 204, 204));
         jTxnombres.setForeground(new java.awt.Color(51, 51, 51));
         jTxnombres.setBordeColorFocus(new java.awt.Color(51, 51, 51));
@@ -280,6 +271,11 @@ public class PnPerfil extends javax.swing.JPanel {
                 jTxtelefonoActionPerformed(evt);
             }
         });
+        jTxtelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxtelefonoKeyTyped(evt);
+            }
+        });
         rSPanelVector2.add(jTxtelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, -1, 32));
 
         jLabel9.setFont(new java.awt.Font("Trajan Pro", 1, 36)); // NOI18N
@@ -297,6 +293,11 @@ public class PnPerfil extends javax.swing.JPanel {
                 jTxciudadActionPerformed(evt);
             }
         });
+        jTxciudad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxciudadKeyTyped(evt);
+            }
+        });
         rSPanelVector2.add(jTxciudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 240, -1, 32));
 
         jLabel10.setFont(new java.awt.Font("Trajan Pro", 1, 36)); // NOI18N
@@ -312,6 +313,11 @@ public class PnPerfil extends javax.swing.JPanel {
         jTxdireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxdireccionActionPerformed(evt);
+            }
+        });
+        jTxdireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxdireccionKeyTyped(evt);
             }
         });
         rSPanelVector2.add(jTxdireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 320, -1, 32));
@@ -370,6 +376,11 @@ public class PnPerfil extends javax.swing.JPanel {
         jTcorreo.setBordeColorFocus(new java.awt.Color(51, 51, 51));
         jTcorreo.setBotonColor(new java.awt.Color(51, 51, 51));
         jTcorreo.setPlaceholder("Correo Electronico");
+        jTcorreo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTcorreoFocusLost(evt);
+            }
+        });
         jTcorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTcorreoActionPerformed(evt);
@@ -433,25 +444,6 @@ public class PnPerfil extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTcorreoActionPerformed
 
-    private void jLbeliminarcuentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLbeliminarcuentaMouseClicked
-        // TODO add your handling code here:
-        try {
-            int n = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar sus datos?", "Mensaje del Sistema",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (n == JOptionPane.OK_OPTION) {
-                manager.getLoginDAO().eliminar(login);
-                manager.getEmpleadoDAO().eliminar(empleado);
-                ventana2.dispose();
-                jFrmPrincipal ventana = new jFrmPrincipal();
-                ventana.setVisible(true);
-                ventana.pack();
-            }
-        } catch (DAOException ex) {
-            Logger.getLogger(Perfil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_jLbeliminarcuentaMouseClicked
-
     private void JBTguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBTguardarActionPerformed
         // TODO add your handling code here:
         int id = 1;
@@ -473,6 +465,7 @@ public class PnPerfil extends javax.swing.JPanel {
             manager.getActividadDAO().insertar(act);
             manager.getEmpleadoDAO().modificar(empleado);
             JOptionPane.showMessageDialog(null, "Se ha actualizado su información", "Sistema", JOptionPane.INFORMATION_MESSAGE);
+            setEditable(false);
         } catch (DAOException ex) {
             Logger.getLogger(PnPerfil.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -482,6 +475,41 @@ public class PnPerfil extends javax.swing.JPanel {
         // TODO add your handling code here:
         setEditable(true);
     }//GEN-LAST:event_jbtactualizarActionPerformed
+
+    private void jTxtelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtelefonoKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0')|| (caracter > '9'))&& (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_jTxtelefonoKeyTyped
+
+    private void jTxciudadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxciudadKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (!Character.isLetter(evt.getKeyChar()) && caracter != '\b' && caracter != ' ') {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_jTxciudadKeyTyped
+
+    private void jTcorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTcorreoFocusLost
+        // TODO add your handling code here:
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");// Patrón para validar el email
+        String email = jTcorreo.getText();
+        Matcher mather = pattern.matcher(email);
+        if (mather.find() == false) {
+            JOptionPane.showMessageDialog(null, "Ingrese un correo valido", "E-mail invalido", JOptionPane.ERROR_MESSAGE);
+            jTcorreo.setText("");
+        }
+    }//GEN-LAST:event_jTcorreoFocusLost
+
+    private void jTxdireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxdireccionKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0')|| (caracter > '9'))&& (!Character.isLetter(evt.getKeyChar()) && caracter != '\b' && caracter != ' ')) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_jTxdireccionKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -499,7 +527,6 @@ public class PnPerfil extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLbeliminarcuenta;
     private rojeru_san.RSMTextFull jTcorreo;
     private rojeru_san.RSMTextFull jTxapellidos;
     private rojeru_san.RSMTextFull jTxcedula;

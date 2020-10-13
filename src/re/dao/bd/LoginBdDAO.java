@@ -90,13 +90,13 @@ public class LoginBdDAO implements LoginDAO{
     }
 
     @Override
-    public void eliminar(Login a) throws DAOException {
+    public void eliminar(Integer a) throws DAOException {
         PreparedStatement stmt = null;
         int rows = 0;
         try {
 
             stmt = conn.prepareStatement(DELETE);
-            stmt.setInt(1, a.getIdUsuario());
+            stmt.setInt(1, a);
 
             if (stmt.executeUpdate() == 0) {
                 throw new DAOException("El registro no se ha borrado");

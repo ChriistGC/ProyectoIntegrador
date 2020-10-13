@@ -95,28 +95,7 @@ public class PaqueteBdDAO implements PaqueteDAO{
     }
 
     @Override
-    public void eliminar(Paquete a) throws DAOException {
-        PreparedStatement stmt = null;
-        int rows = 0;
-        try {
-
-            stmt = conn.prepareStatement(DELETE);
-            stmt.setInt(1, a.getId_region());
-
-            if (stmt.executeUpdate() == 0) {
-                throw new DAOException("El registro no se ha borrado");
-            }
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(PaqueteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(PaqueteBdDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+    public void eliminar(Integer a) throws DAOException { }
 
     @Override
     public Paquete obtener(Integer id) throws DAOException {

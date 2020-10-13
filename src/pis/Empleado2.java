@@ -64,6 +64,8 @@ public class Empleado2 extends javax.swing.JDialog {
         try {
             Empleado em = getEmpleadoSeleccionado();
             Login lg = getLoginSeleccionado();
+            jLbnombreemp.setText(lg.getUsuario());
+            jLbrango.setText(em.getCargo());
             pnPerfil1.setEmpleado(em);
             pnPerfil1.setLogin(lg);
             pnPerfil1.setVentana2(this);
@@ -114,22 +116,23 @@ public class Empleado2 extends javax.swing.JDialog {
         jBventas = new rojeru_san.RSButton();
         jBActividades = new rojeru_san.RSButton();
         jBperfil = new rojeru_san.RSButton();
-        jLbrango = new javax.swing.JLabel();
-        jLbnombreemp = new javax.swing.JLabel();
         rSPanelCircle2 = new rojeru_san.rspanel.RSPanelCircle();
         rSPanelGradiente1 = new rspanelgradiente.RSPanelGradiente();
         jBtcerrarsesion = new rojeru_san.RSButton();
+        jLbnombreemp = new javax.swing.JLabel();
+        jLbrango = new javax.swing.JLabel();
         rSPanelsSlider1 = new rojerusan.RSPanelsSlider();
         pnl1 = new javax.swing.JPanel();
         pnPerfil1 = new pis.PnPerfil();
+        pnl2 = new javax.swing.JPanel();
+        jPactividades1 = new pis.jPactividades();
         pnl3 = new javax.swing.JPanel();
         pnVentas1 = new pis.PnVentas();
         pnl4 = new javax.swing.JPanel();
         jPregistros2 = new pis.jPregistros();
-        pnl2 = new javax.swing.JPanel();
-        jPactividades1 = new pis.jPactividades();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
@@ -190,18 +193,6 @@ public class Empleado2 extends javax.swing.JDialog {
         });
         jPanel2.add(jBperfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 234, 190, -1));
 
-        jLbrango.setBackground(new java.awt.Color(154, 159, 168));
-        jLbrango.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
-        jLbrango.setForeground(new java.awt.Color(154, 159, 168));
-        jLbrango.setText("Administrador");
-        jPanel2.add(jLbrango, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, 25));
-
-        jLbnombreemp.setBackground(new java.awt.Color(154, 159, 168));
-        jLbnombreemp.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
-        jLbnombreemp.setForeground(new java.awt.Color(154, 159, 168));
-        jLbnombreemp.setText("Bryan Hidalgo");
-        jPanel2.add(jLbnombreemp, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 130, -1, 25));
-
         rSPanelCircle2.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout rSPanelCircle2Layout = new javax.swing.GroupLayout(rSPanelCircle2);
@@ -226,6 +217,23 @@ public class Empleado2 extends javax.swing.JDialog {
         jBtcerrarsesion.setColorHover(new java.awt.Color(43, 43, 43));
         jBtcerrarsesion.setColorText(new java.awt.Color(154, 159, 168));
         jBtcerrarsesion.setFont(new java.awt.Font("Roboto Bold", 1, 16)); // NOI18N
+        jBtcerrarsesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtcerrarsesionActionPerformed(evt);
+            }
+        });
+
+        jLbnombreemp.setBackground(new java.awt.Color(154, 159, 168));
+        jLbnombreemp.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
+        jLbnombreemp.setForeground(new java.awt.Color(154, 159, 168));
+        jLbnombreemp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLbnombreemp.setText("user");
+
+        jLbrango.setBackground(new java.awt.Color(154, 159, 168));
+        jLbrango.setFont(new java.awt.Font("Trebuchet MS", 1, 14)); // NOI18N
+        jLbrango.setForeground(new java.awt.Color(154, 159, 168));
+        jLbrango.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLbrango.setText("Cargo");
 
         javax.swing.GroupLayout rSPanelGradiente1Layout = new javax.swing.GroupLayout(rSPanelGradiente1);
         rSPanelGradiente1.setLayout(rSPanelGradiente1Layout);
@@ -234,11 +242,23 @@ public class Empleado2 extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rSPanelGradiente1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jBtcerrarsesion, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(rSPanelGradiente1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(rSPanelGradiente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLbnombreemp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(rSPanelGradiente1Layout.createSequentialGroup()
+                        .addComponent(jLbrango, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         rSPanelGradiente1Layout.setVerticalGroup(
             rSPanelGradiente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rSPanelGradiente1Layout.createSequentialGroup()
-                .addContainerGap(630, Short.MAX_VALUE)
+                .addGap(128, 128, 128)
+                .addComponent(jLbnombreemp, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLbrango, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 445, Short.MAX_VALUE)
                 .addComponent(jBtcerrarsesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -267,6 +287,22 @@ public class Empleado2 extends javax.swing.JDialog {
 
         rSPanelsSlider1.add(pnl1, "card2");
 
+        pnl2.setBackground(new java.awt.Color(255, 255, 255));
+        pnl2.setName("pnl2"); // NOI18N
+
+        javax.swing.GroupLayout pnl2Layout = new javax.swing.GroupLayout(pnl2);
+        pnl2.setLayout(pnl2Layout);
+        pnl2Layout.setHorizontalGroup(
+            pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPactividades1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        pnl2Layout.setVerticalGroup(
+            pnl2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPactividades1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        rSPanelsSlider1.add(pnl2, "card3");
+
         pnl3.setBackground(new java.awt.Color(255, 255, 255));
         pnl3.setName("pnl1"); // NOI18N
 
@@ -287,17 +323,19 @@ public class Empleado2 extends javax.swing.JDialog {
 
         pnl4.setBackground(new java.awt.Color(255, 255, 255));
         pnl4.setName("pnl2"); // NOI18N
-        pnl4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        pnl4.add(jPregistros2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        javax.swing.GroupLayout pnl4Layout = new javax.swing.GroupLayout(pnl4);
+        pnl4.setLayout(pnl4Layout);
+        pnl4Layout.setHorizontalGroup(
+            pnl4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPregistros2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        pnl4Layout.setVerticalGroup(
+            pnl4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPregistros2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         rSPanelsSlider1.add(pnl4, "card3");
-
-        pnl2.setBackground(new java.awt.Color(255, 255, 255));
-        pnl2.setName("pnl2"); // NOI18N
-        pnl2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        pnl2.add(jPactividades1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
-
-        rSPanelsSlider1.add(pnl2, "card3");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -358,7 +396,7 @@ public class Empleado2 extends javax.swing.JDialog {
                 Empleado em = getEmpleadoSeleccionado();
                 pnVentas1.setEmpleado(em);
                 pnVentas1.setManager(manager);
-                pnVentas1.setEditable();
+                pnVentas1.setEditable(false);
                 pnVentas1.loadData();
             } catch (DAOException ex) {
                 Logger.getLogger(Empleado2.class.getName()).log(Level.SEVERE, null, ex);
@@ -373,9 +411,8 @@ public class Empleado2 extends javax.swing.JDialog {
             this.jBventas.setSelected(false);
             this.jBActividades.setSelected(true);
             this.jBreportes.setSelected(false);
-           
-        }
-        try {
+            
+           try {
                 Empleado cl = getEmpleadoSeleccionado();
                 this.jPactividades1.llenarTabla(manager, cl.getCod_empleado());
             } catch (DAOException ex) {
@@ -385,8 +422,8 @@ public class Empleado2 extends javax.swing.JDialog {
             } catch (SQLException ex) {
                 Logger.getLogger(Empleado2.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            rSPanelsSlider1.setPanelSlider(1, pnl2, RSPanelsSlider.DIRECT.RIGHT);
+           rSPanelsSlider1.setPanelSlider(1, pnl2, RSPanelsSlider.DIRECT.RIGHT);
+        }    
     }//GEN-LAST:event_jBActividadesActionPerformed
 
     private void jBperfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBperfilActionPerformed
@@ -396,9 +433,18 @@ public class Empleado2 extends javax.swing.JDialog {
             this.jBventas.setSelected(false);
             this.jBActividades.setSelected(false);
             this.jBreportes.setSelected(false);
+            
             rSPanelsSlider1.setPanelSlider(1, pnl1, RSPanelsSlider.DIRECT.RIGHT);
         }
     }//GEN-LAST:event_jBperfilActionPerformed
+
+    private void jBtcerrarsesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtcerrarsesionActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        jFrmPrincipal ventana= new jFrmPrincipal();
+        ventana.setVisible(true);
+        ventana.pack();
+    }//GEN-LAST:event_jBtcerrarsesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -428,7 +474,7 @@ public class Empleado2 extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "turistapp", "042395");
         java.awt.EventQueue.invokeLater(() -> {
             try {
                 Empleado2 dialog = new Empleado2(new javax.swing.JFrame(), true, manager);

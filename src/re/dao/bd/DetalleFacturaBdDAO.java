@@ -91,13 +91,13 @@ public class DetalleFacturaBdDAO implements DetalleFacturaDAO {
     }
 
     @Override
-    public void eliminar(DetalleFactura a) throws DAOException {
+    public void eliminar(Integer a) throws DAOException {
         PreparedStatement stmt = null;
         int rows = 0;
         try {
 
             stmt = conn.prepareStatement(DELETE);
-            stmt.setInt(1, a.getIdUsuario());
+            stmt.setInt(1, a);
 
             if (stmt.executeUpdate() == 0) {
                 throw new DAOException("El registro no se ha borrado");
@@ -156,7 +156,7 @@ public class DetalleFacturaBdDAO implements DetalleFacturaDAO {
             if (rs.next()) {
                 fact = convertir(rs);
             } else {
-                throw new DAOException("No se encontro el registro");
+//                throw new DAOException("No se encontro el registro");
             }
 
         } catch (SQLException ex) {

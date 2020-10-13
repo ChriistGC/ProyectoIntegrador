@@ -15,7 +15,7 @@ public interface DAO <T,K>{
     
     void insertar(T a) throws DAOException;
     void modificar(T a) throws DAOException;
-    void eliminar(T a) throws DAOException;
+    void eliminar(K a) throws DAOException;
     List<T> obtenerTodos() throws DAOException;
     List<T> obtenerLista(K a) throws DAOException;
     T obtener(K id) throws DAOException;

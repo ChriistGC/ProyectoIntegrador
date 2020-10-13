@@ -32,7 +32,6 @@ public class jPactividades extends javax.swing.JPanel {
         tableActividad.setModel(model);
         trsFiltro = new TableRowSorter(tableActividad.getModel());
         tableActividad.setRowSorter(trsFiltro);
-        System.out.println(cod);
         trsFiltro.setRowFilter(RowFilter.regexFilter(String.valueOf(cod),0));    
     }
 
@@ -52,11 +51,8 @@ public class jPactividades extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         rSPanelVector3 = new rojeru_san.rspanel.RSPanelVector();
-        jBtadministrador = new rojeru_san.rsbutton.RSButtonRound();
-        jBtempleado = new rojeru_san.rsbutton.RSButtonRound();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableActividad = new rojerusan.RSTableMetro1();
-        jBtgenerar = new rojeru_san.rsbutton.RSButtonRound();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -87,23 +83,6 @@ public class jPactividades extends javax.swing.JPanel {
 
         rSPanelVector3.setBackground(new java.awt.Color(121, 116, 210));
         rSPanelVector3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jBtadministrador.setBackground(new java.awt.Color(51, 51, 51));
-        jBtadministrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/register-machine_icon-icons.com_48487.png"))); // NOI18N
-        jBtadministrador.setText("Administrador");
-        jBtadministrador.setColorBorde(new java.awt.Color(43, 43, 43));
-        jBtadministrador.setColorHover(new java.awt.Color(102, 102, 102));
-        jBtadministrador.setFont(new java.awt.Font("Roboto Bold", 1, 18)); // NOI18N
-        rSPanelVector3.add(jBtadministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 15, 160, 40));
-
-        jBtempleado.setBackground(new java.awt.Color(51, 51, 51));
-        jBtempleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/register-machine_icon-icons.com_48487.png"))); // NOI18N
-        jBtempleado.setText("Empleado");
-        jBtempleado.setColorBorde(new java.awt.Color(43, 43, 43));
-        jBtempleado.setColorHover(new java.awt.Color(102, 102, 102));
-        jBtempleado.setFont(new java.awt.Font("Roboto Bold", 1, 18)); // NOI18N
-        rSPanelVector3.add(jBtempleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 15, 160, 40));
-
         rSPanelVector2.add(rSPanelVector3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 620, 900, 70));
 
         tableActividad.setModel(new javax.swing.table.DefaultTableModel(
@@ -127,22 +106,11 @@ public class jPactividades extends javax.swing.JPanel {
 
         rSPanelVector2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 700, 420));
 
-        jBtgenerar.setBackground(new java.awt.Color(51, 51, 51));
-        jBtgenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/register-machine_icon-icons.com_48487.png"))); // NOI18N
-        jBtgenerar.setText("Generar");
-        jBtgenerar.setColorBorde(new java.awt.Color(43, 43, 43));
-        jBtgenerar.setColorHover(new java.awt.Color(102, 102, 102));
-        jBtgenerar.setFont(new java.awt.Font("Roboto Bold", 1, 18)); // NOI18N
-        rSPanelVector2.add(jBtgenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 560, 160, 40));
-
         add(rSPanelVector2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 690));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private rojeru_san.rsbutton.RSButtonRound jBtadministrador;
-    private rojeru_san.rsbutton.RSButtonRound jBtempleado;
-    private rojeru_san.rsbutton.RSButtonRound jBtgenerar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;

@@ -14,11 +14,14 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import re.dao.DAOException;
 import re.dao.DAOManager;
+import reg.modelo.Actividad;
 import reg.modelo.DetalleFactura;
 import reg.modelo.Empleado;
 import reg.modelo.Factura;
@@ -31,11 +34,12 @@ import reg.modelo.Usuario;
  * @author Astaroth
  */
 public class PnVentas extends javax.swing.JPanel {
+
     private DAOManager manager;
     private Empleado empleado;
     private Region region;
     private Paquete paquete;
-    private Usuario usuario;   
+    private Usuario usuario;
     private Factura factura;
     private int interes;
 
@@ -47,7 +51,6 @@ public class PnVentas extends javax.swing.JPanel {
         this.usuario = usuario;
     }
 
-    
     public DAOManager getManager() {
         return manager;
     }
@@ -75,7 +78,7 @@ public class PnVentas extends javax.swing.JPanel {
     public Paquete getPaquete() {
         return paquete;
     }
-    
+
     public int getInteres() {
         return interes;
     }
@@ -87,17 +90,20 @@ public class PnVentas extends javax.swing.JPanel {
     /**
      * Creates new form PnVentas
      */
-    public void setPaquete(Paquete paquete) {    
+    public void setPaquete(Paquete paquete) {
         this.paquete = paquete;
     }
-    public void setEditable() {
-        this.jTxidcliente.setEditable(true);
+
+    public void setEditable(boolean editable) {
+        this.jTxidcliente.setEditable(false);
+        this.jTxnombre.setEditable(editable);
+        this.jTxapellido.setEditable(editable);
         this.jTxcedula.setEditable(true);
-        this.jTxtelefono.setEditable(true);
-        this.jTxdireccliente.setEditable(true);
-        this.jTxcorreo.setEditable(true);
-        this.jTxclienteciudad.setEditable(true);
-        
+        this.jTxtelefono.setEditable(editable);
+        this.jTxdireccliente.setEditable(editable);
+        this.jTxcorreo.setEditable(editable);
+        this.jTxclienteciudad.setEditable(editable);
+
         this.jTxIDPaquete.setEditable(false);
         this.jTxregion.setEditable(false);
         this.jTxsitio.setEditable(false);
@@ -107,6 +113,7 @@ public class PnVentas extends javax.swing.JPanel {
         this.jTxprecio1.setEditable(false);
         this.jTxtotal.setEditable(false);
     }
+
     public void loadData() {
         if (paquete != null) {
             this.jTxIDPaquete.setText(paquete.getId_paquete() + " ");
@@ -116,7 +123,7 @@ public class PnVentas extends javax.swing.JPanel {
             this.jTxdireccionsitio.setText(paquete.getDireccion());
             this.jTxprecio1.setText((paquete.getPresupuesto() - (paquete.getPresupuesto() * 0.12)) + "");
             this.jTxtotal.setText(paquete.getPresupuesto() + " ");
-        } else{
+        } else {
             this.jTxIDPaquete.setText("");
             this.jTxregion.setText("");
             this.jTxsitio.setText("");
@@ -126,20 +133,36 @@ public class PnVentas extends javax.swing.JPanel {
             this.jTxtotal.setText("");
         }
     }
-    public void loadUsuario(){
-        this.jTxidcliente.setText(usuario.getCodigo()+"");
-        this.jTxtelefono.setText(usuario.getTelefono());
-        this.jTxdireccliente.setText(usuario.getDireccion());
-        this.jTxcorreo.setText(usuario.getCorreo());
-        this.jTxclienteciudad.setText(usuario.getCiudad());
+
+    public void loadUsuario() {
+        if (usuario != null) {
+            this.jTxidcliente.setText(usuario.getCodigo() + "");
+            this.jTxnombre.setText(usuario.getNombres());
+            this.jTxapellido.setText(usuario.getApellidos());
+            this.jTxtelefono.setText(usuario.getTelefono());
+            this.jTxdireccliente.setText(usuario.getDireccion());
+            this.jTxcorreo.setText(usuario.getCorreo());
+            this.jTxclienteciudad.setText(usuario.getCiudad());
+        } else {
+            this.jTxidcliente.setText("");
+            this.jTxnombre.setText("");
+            this.jTxapellido.setText("");
+            this.jTxcedula.setText("");
+            this.jTxtelefono.setText("");
+            this.jTxdireccliente.setText("");
+            this.jTxcorreo.setText("");
+            this.jTxclienteciudad.setText("");
+        }
     }
 
     public PnVentas() {
         initComponents();
     }
-    
+
     private void limpiarDatos() {
         setPaquete(null);
+        setUsuario(null);
+        loadUsuario();
         loadData();
     }
 
@@ -160,14 +183,14 @@ public class PnVentas extends javax.swing.JPanel {
                             + "\nCedula: " + usuario.getCedula() + "\nCorreo: " + usuario.getCorreo() + "\nTelefono: " + usuario.getTelefono()
                             + "\nLugar Turistico: " + paquete.getLugarturistico() + "\nRegion: " + region.getRegion() + "\nCiudad: " + paquete.getCiudad()
                             + "\nDireccion" + paquete.getDireccion() + "\nFecha del viaje: " + factura.getFechaViaje() + "\nPrecio sin IVA: " + jTxprecio1.getText()
-                            + "\nInteres por tarjeta: "+factura.getInteresPago()+"\nIVA: " + factura.getIVA() + "\nTotal: " + factura.getTotal()+"\nVenta realizada por: "+empleado.getNombres()+" "+empleado.getApellidos());
+                            + "\nInteres por tarjeta: " + factura.getInteresPago() + "\nIVA: " + factura.getIVA() + "\nTotal: " + factura.getTotal() + "\nVenta realizada por: " + empleado.getNombres() + " " + empleado.getApellidos());
                 } else {
                     bw = new BufferedWriter(new FileWriter(archivo.getAbsoluteFile() + ".txt"));
                     bw.write("Factura #" + factura.getIdFactura() + "\nFecha de la compra: " + factura.getFechaVenta() + "\nNombre del Cliente: " + usuario.getNombres() + " " + usuario.getApellidos()
                             + "\nCedula: " + usuario.getCedula() + "\nCorreo: " + usuario.getCorreo() + "\nTelefono: " + usuario.getTelefono()
                             + "\nLugar Turistico: " + paquete.getLugarturistico() + "\nRegion: " + region.getRegion() + "\nCiudad: " + paquete.getCiudad()
                             + "\nDireccion" + paquete.getDireccion() + "\nFecha del viaje: " + factura.getFechaViaje() + "\nPrecio sin IVA: " + jTxprecio1.getText()
-                            + "\nInteres por tarjeta: "+factura.getInteresPago()+"\nIVA: " + factura.getIVA() + "\nTotal: " + factura.getTotal()+"\nVenta realizada por: "+empleado.getNombres()+" "+empleado.getApellidos());
+                            + "\nInteres por tarjeta: " + factura.getInteresPago() + "\nIVA: " + factura.getIVA() + "\nTotal: " + factura.getTotal() + "\nVenta realizada por: " + empleado.getNombres() + " " + empleado.getApellidos());
                 }
                 bw.close();
             } catch (IOException ex) {
@@ -201,6 +224,7 @@ public class PnVentas extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jTxIDPaquete = new rojeru_san.RSMTextFull();
         jTxidcliente = new rojeru_san.RSMTextFull();
+        jTxnombre = new rojeru_san.RSMTextFull();
         jTxpaqueteciudad = new rojeru_san.RSMTextFull();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -216,6 +240,7 @@ public class PnVentas extends javax.swing.JPanel {
         jTxcorreo = new rojeru_san.RSMTextFull();
         jLabel10 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
         jTxdireccionsitio = new rojeru_san.RSMTextFull();
         jLabel6 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -234,6 +259,8 @@ public class PnVentas extends javax.swing.JPanel {
         jTxclienteciudad = new rojeru_san.RSMTextFull();
         jBtced = new RSMaterialComponent.RSButtonIconUno();
         jBteditpresupuesto1 = new RSMaterialComponent.RSButtonIconUno();
+        jLabel22 = new javax.swing.JLabel();
+        jTxapellido = new rojeru_san.RSMTextFull();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -258,7 +285,12 @@ public class PnVentas extends javax.swing.JPanel {
         jBtcancelar.setColorBorde(new java.awt.Color(43, 43, 43));
         jBtcancelar.setColorHover(new java.awt.Color(102, 102, 102));
         jBtcancelar.setFont(new java.awt.Font("Roboto Bold", 1, 16)); // NOI18N
-        rSPanelVector2.add(jBtcancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 640, 180, -1));
+        jBtcancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtcancelarActionPerformed(evt);
+            }
+        });
+        rSPanelVector2.add(jBtcancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 630, 180, -1));
 
         fecha.setBackground(new java.awt.Color(255, 188, 72));
         fecha.setColorBackground(new java.awt.Color(51, 51, 51));
@@ -318,6 +350,7 @@ public class PnVentas extends javax.swing.JPanel {
         });
         rSPanelVector2.add(jTxIDPaquete, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 390, 270, 32));
 
+        jTxidcliente.setEditable(false);
         jTxidcliente.setBackground(new java.awt.Color(255, 188, 72));
         jTxidcliente.setForeground(new java.awt.Color(51, 51, 51));
         jTxidcliente.setBordeColorFocus(new java.awt.Color(51, 51, 51));
@@ -329,6 +362,18 @@ public class PnVentas extends javax.swing.JPanel {
             }
         });
         rSPanelVector2.add(jTxidcliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 270, 32));
+
+        jTxnombre.setBackground(new java.awt.Color(255, 188, 72));
+        jTxnombre.setForeground(new java.awt.Color(51, 51, 51));
+        jTxnombre.setBordeColorFocus(new java.awt.Color(51, 51, 51));
+        jTxnombre.setBotonColor(new java.awt.Color(51, 51, 51));
+        jTxnombre.setPlaceholder("Nombres ");
+        jTxnombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxnombreKeyTyped(evt);
+            }
+        });
+        rSPanelVector2.add(jTxnombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 270, 32));
 
         jTxpaqueteciudad.setEditable(false);
         jTxpaqueteciudad.setBackground(new java.awt.Color(255, 188, 72));
@@ -443,12 +488,17 @@ public class PnVentas extends javax.swing.JPanel {
         jTxcorreo.setBordeColorFocus(new java.awt.Color(51, 51, 51));
         jTxcorreo.setBotonColor(new java.awt.Color(51, 51, 51));
         jTxcorreo.setPlaceholder("Correo del cliente");
+        jTxcorreo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTxcorreoFocusLost(evt);
+            }
+        });
         jTxcorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxcorreoActionPerformed(evt);
             }
         });
-        rSPanelVector2.add(jTxcorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 270, 32));
+        rSPanelVector2.add(jTxcorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, 270, 30));
 
         jLabel10.setFont(new java.awt.Font("Trajan Pro", 1, 24)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(51, 51, 51));
@@ -458,7 +508,12 @@ public class PnVentas extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Trajan Pro", 1, 14)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(51, 51, 51));
         jLabel16.setText("Correo");
-        rSPanelVector2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, 20));
+        rSPanelVector2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, -1, 20));
+
+        jLabel21.setFont(new java.awt.Font("Trajan Pro", 1, 14)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel21.setText("Nombres");
+        rSPanelVector2.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, 20));
 
         jTxdireccionsitio.setBackground(new java.awt.Color(255, 188, 72));
         jTxdireccionsitio.setForeground(new java.awt.Color(51, 51, 51));
@@ -516,7 +571,7 @@ public class PnVentas extends javax.swing.JPanel {
         jLabel13.setFont(new java.awt.Font("Trajan Pro", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
         jLabel13.setText("Teléfono");
-        rSPanelVector2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, 20));
+        rSPanelVector2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 320, -1, 20));
 
         jTxtelefono.setBackground(new java.awt.Color(255, 188, 72));
         jTxtelefono.setForeground(new java.awt.Color(51, 51, 51));
@@ -528,7 +583,12 @@ public class PnVentas extends javax.swing.JPanel {
                 jTxtelefonoActionPerformed(evt);
             }
         });
-        rSPanelVector2.add(jTxtelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, 270, 32));
+        jTxtelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxtelefonoKeyTyped(evt);
+            }
+        });
+        rSPanelVector2.add(jTxtelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 310, 270, 30));
 
         jLabel17.setFont(new java.awt.Font("Trajan Pro", 1, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(51, 51, 51));
@@ -545,13 +605,19 @@ public class PnVentas extends javax.swing.JPanel {
                 jTxcedulaActionPerformed(evt);
             }
         });
+        jTxcedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxcedulaKeyTyped(evt);
+            }
+        });
         rSPanelVector2.add(jTxcedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 180, 270, 32));
 
         jLabel18.setFont(new java.awt.Font("Trajan Pro", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(51, 51, 51));
         jLabel18.setText("Presupuesto");
-        rSPanelVector2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, -1, 20));
+        rSPanelVector2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 360, -1, 20));
 
+        jTxpresupuesto.setEditable(false);
         jTxpresupuesto.setBackground(new java.awt.Color(255, 188, 72));
         jTxpresupuesto.setForeground(new java.awt.Color(51, 51, 51));
         jTxpresupuesto.setBordeColorFocus(new java.awt.Color(51, 51, 51));
@@ -562,7 +628,7 @@ public class PnVentas extends javax.swing.JPanel {
                 jTxpresupuestoActionPerformed(evt);
             }
         });
-        rSPanelVector2.add(jTxpresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, 270, 32));
+        rSPanelVector2.add(jTxpresupuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 350, 270, 32));
 
         jLabel19.setFont(new java.awt.Font("Trajan Pro", 1, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(51, 51, 51));
@@ -577,6 +643,11 @@ public class PnVentas extends javax.swing.JPanel {
         jTxdireccliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxdirecclienteActionPerformed(evt);
+            }
+        });
+        jTxdireccliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxdirecclienteKeyTyped(evt);
             }
         });
         rSPanelVector2.add(jTxdireccliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 270, 270, 32));
@@ -594,6 +665,11 @@ public class PnVentas extends javax.swing.JPanel {
         jTxclienteciudad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTxclienteciudadActionPerformed(evt);
+            }
+        });
+        jTxclienteciudad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxclienteciudadKeyTyped(evt);
             }
         });
         rSPanelVector2.add(jTxclienteciudad, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 230, 270, 32));
@@ -618,7 +694,24 @@ public class PnVentas extends javax.swing.JPanel {
                 jBteditpresupuesto1ActionPerformed(evt);
             }
         });
-        rSPanelVector2.add(jBteditpresupuesto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 310, 30, 30));
+        rSPanelVector2.add(jBteditpresupuesto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 350, 30, 30));
+
+        jLabel22.setFont(new java.awt.Font("Trajan Pro", 1, 14)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel22.setText("Apellidos");
+        rSPanelVector2.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, 20));
+
+        jTxapellido.setBackground(new java.awt.Color(255, 188, 72));
+        jTxapellido.setForeground(new java.awt.Color(51, 51, 51));
+        jTxapellido.setBordeColorFocus(new java.awt.Color(51, 51, 51));
+        jTxapellido.setBotonColor(new java.awt.Color(51, 51, 51));
+        jTxapellido.setPlaceholder("Apellidos");
+        jTxapellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxapellidoKeyTyped(evt);
+            }
+        });
+        rSPanelVector2.add(jTxapellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, 270, 32));
 
         add(rSPanelVector2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 690));
     }// </editor-fold>//GEN-END:initComponents
@@ -685,13 +778,23 @@ public class PnVentas extends javax.swing.JPanel {
 
     private void jBtcedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtcedActionPerformed
         String ced = this.jTxcedula.getText();
-        try{
+        try {
             Usuario user = manager.getUsuarioDAO().obtenerUser(ced);
-            if(user != null){
+            if (user != null) {
                 this.setUsuario(user);
                 loadUsuario();
-            }else{    
-                System.out.println("entre");
+            } else {
+                int id = 1;
+                try {
+                    while (manager.getUsuarioDAO().obtener(id) != null) {
+                        id++;
+                    }
+                    jTxidcliente.setText(Integer.toString(id));
+                    setEditable(true);
+
+                } catch (DAOException ex) {
+                    Logger.getLogger(PnVentas.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } catch (DAOException ex) {
             Logger.getLogger(PnVentas.class.getName()).log(Level.SEVERE, null, ex);
@@ -699,33 +802,50 @@ public class PnVentas extends javax.swing.JPanel {
     }//GEN-LAST:event_jBtcedActionPerformed
 
     private void jBtiniciarregionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtiniciarregionActionPerformed
-       try {
-            JDlgRegiones ventana = new JDlgRegiones(null, true, getManager(), Double.parseDouble(this.jTxpresupuesto.getText()));
-            ventana.setVisible(true);
-            Paquete pq=manager.getPaqueteDAO().obtener(ventana.getCod());
-            Region rg=manager.getRegionDAO().obtener(pq.getId_region());
-            setPaquete(pq);
-            setRegion(rg);
-            loadData();
+        try {
+            if (jTxpresupuesto.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Seleccione primero un presupuesto", "Sistema", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JDlgRegiones ventana = new JDlgRegiones(null, true, getManager(), Double.parseDouble(this.jTxpresupuesto.getText()));
+                ventana.setVisible(true);
+                try {
+                    Paquete pq = manager.getPaqueteDAO().obtener(ventana.getCod());
+                    Region rg = manager.getRegionDAO().obtener(pq.getId_region());
+                    setPaquete(pq);
+                    setRegion(rg);
+                    loadData();
+                } catch (Exception e) {
+                }
+            }
         } catch (DAOException ex) {
-            Logger.getLogger(PnVentas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jBtiniciarregionActionPerformed
 
     private void JbtmpagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbtmpagoActionPerformed
-       double precio = paquete.getPresupuesto();
-        jDmetodopago ventana = new jDmetodopago(null, true, precio);
-        ventana.setVisible(true);
-        ventana.pack();
-        jTxventasmetodo.setText(ventana.getMtdoPago());
-        setInteres(ventana.getInteres());
-        jTxtotal.setText(ventana.getTxtTotal());
+        if (jTxpresupuesto.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Seleccione primero un presupuesto", "Sistema", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                double precio = paquete.getPresupuesto();
+                jDmetodopago ventana = new jDmetodopago(null, true, precio);
+                ventana.setVisible(true);
+                ventana.pack();
+                jTxventasmetodo.setText(ventana.getMtdoPago());
+                setInteres(ventana.getInteres());
+                jTxtotal.setText(ventana.getTxtTotal());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Seleccione primero un paquete de viaje", "Sistema", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_JbtmpagoActionPerformed
 
     private void jBteditpresupuesto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBteditpresupuesto1ActionPerformed
-       jDialPresupuesto ventana = new jDialPresupuesto(null, true);
-        ventana.setVisible(true);
-        this.jTxpresupuesto.setText(ventana.getTxtPresupuesto());
+        try {
+            jDialPresupuesto ventana = new jDialPresupuesto(null, true);
+            ventana.setVisible(true);
+            this.jTxpresupuesto.setText(ventana.getTxtPresupuesto());
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_jBteditpresupuesto1ActionPerformed
 
     private void jBtgenararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtgenararActionPerformed
@@ -737,11 +857,14 @@ public class PnVentas extends javax.swing.JPanel {
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (n == JOptionPane.OK_OPTION) {
                 try {
-                    int id = 1;
+                    int id = 1, id2 = 1;
                     try {
 
                         while (manager.getFacturaDAO().obtener(id) != null) {
                             id++;
+                        }
+                        while (manager.getActividadDAO().obtener(id2) != null) {
+                            id2++;
                         }
 
                     } catch (DAOException ex) {
@@ -756,18 +879,111 @@ public class PnVentas extends javax.swing.JPanel {
                         fecha.setLimpiarFecha(true);
                         JOptionPane.showMessageDialog(null, "Ingrese una fecha valida", "Sistema", JOptionPane.ERROR_MESSAGE);
                     } else {
+                        if (usuario == null) {
+                            usuario = new Usuario(Integer.valueOf(jTxidcliente.getText()), jTxnombre.getText(), jTxapellido.getText(), jTxcedula.getText(), jTxtelefono.getText(), jTxdireccliente.getText(),
+                                    jTxcorreo.getText(), null, jTxclienteciudad.getText());
+                            manager.getUsuarioDAO().insertar(usuario);
+                        }
                         factura = new Factura(id, fechaventa, fecha.getFechaSeleccionada(), jTxventasmetodo.getText(), getInteres(), 12, Double.parseDouble(jTxtotal.getText()));
                         manager.getFacturaDAO().insertar(factura);
                         DetalleFactura det = new DetalleFactura(usuario.getCodigo(), empleado.getCod_empleado(), paquete.getId_paquete(), factura.getIdFactura());
                         manager.getDetalleFacturaDAO().insertar(det);
+                        Actividad act = new Actividad(id2, usuario.getCodigo(), empleado.getCod_empleado(), "Realizado", "Venta", fechaventa);
+                        manager.getActividadDAO().insertar(act);
                         guardarDatos();
                     }
                 } catch (DAOException ex) {
                     Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else if (n == JOptionPane.CANCEL_OPTION) {
+                try {
+                    int id = 1;
+                    try {
+                        while (manager.getActividadDAO().obtener(id) != null) {
+                            id++;
+                        }
+
+                    } catch (DAOException ex) {
+                        Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    DateTimeFormatter date1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate fechaactual = LocalDate.now();
+                    String fechaventa = fechaactual.format(date1);
+
+                    Actividad act = new Actividad(id, 0, empleado.getCod_empleado(), "No Realizado", "Venta", fechaventa);
+                    manager.getActividadDAO().insertar(act);
+                    limpiarDatos();
+                } catch (DAOException ex) {
+                    Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         }
     }//GEN-LAST:event_jBtgenararActionPerformed
+
+    private void jBtcancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtcancelarActionPerformed
+        // TODO add your handling code here:
+        limpiarDatos();
+    }//GEN-LAST:event_jBtcancelarActionPerformed
+
+    private void jTxnombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxnombreKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (!Character.isLetter(evt.getKeyChar()) && caracter != '\b' && caracter != ' ') {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_jTxnombreKeyTyped
+
+    private void jTxapellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxapellidoKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (!Character.isLetter(evt.getKeyChar()) && caracter != '\b' && caracter != ' ') {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_jTxapellidoKeyTyped
+
+    private void jTxclienteciudadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxclienteciudadKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (!Character.isLetter(evt.getKeyChar()) && caracter != '\b' && caracter != ' ') {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_jTxclienteciudadKeyTyped
+
+    private void jTxtelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtelefonoKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_jTxtelefonoKeyTyped
+
+    private void jTxcorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxcorreoFocusLost
+        // TODO add your handling code here:
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");// Patrón para validar el email
+        String email = jTxcorreo.getText();
+        Matcher mather = pattern.matcher(email);
+        if (mather.find() == false) {
+            JOptionPane.showMessageDialog(null, "Ingrese un correo valido", "E-mail invalido", JOptionPane.ERROR_MESSAGE);
+            jTxcorreo.setText("");
+        }
+    }//GEN-LAST:event_jTxcorreoFocusLost
+
+    private void jTxdirecclienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxdirecclienteKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0') || (caracter > '9')) && (!Character.isLetter(evt.getKeyChar()) && caracter != '\b' && caracter != ' ')) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_jTxdirecclienteKeyTyped
+
+    private void jTxcedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxcedulaKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_jTxcedulaKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -792,6 +1008,8 @@ public class PnVentas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -800,12 +1018,14 @@ public class PnVentas extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private rojeru_san.RSMTextFull jTxIDPaquete;
+    private rojeru_san.RSMTextFull jTxapellido;
     private rojeru_san.RSMTextFull jTxcedula;
     private rojeru_san.RSMTextFull jTxclienteciudad;
     private rojeru_san.RSMTextFull jTxcorreo;
     private rojeru_san.RSMTextFull jTxdireccionsitio;
     private rojeru_san.RSMTextFull jTxdireccliente;
     private rojeru_san.RSMTextFull jTxidcliente;
+    private rojeru_san.RSMTextFull jTxnombre;
     private rojeru_san.RSMTextFull jTxpaqueteciudad;
     private rojeru_san.RSMTextFull jTxprecio1;
     private rojeru_san.RSMTextFull jTxpresupuesto;

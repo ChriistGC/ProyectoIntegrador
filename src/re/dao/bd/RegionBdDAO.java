@@ -37,7 +37,7 @@ public class RegionBdDAO implements RegionDAO{
     public void modificar(Region a) throws DAOException {}
 
     @Override
-    public void eliminar(Region a) throws DAOException {}
+    public void eliminar(Integer a) throws DAOException {}
 
     @Override
     public List<Region> obtenerTodos() throws DAOException {return null;}

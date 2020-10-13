@@ -57,6 +57,7 @@ public class JDlgRegiones extends javax.swing.JDialog {
         btnCosta = new javax.swing.JButton();
         btnOriente = new javax.swing.JButton();
         btnSierra = new javax.swing.JButton();
+        rSButtonMaterialIconUno1 = new RSMaterialComponent.RSButtonMaterialIconUno();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -65,6 +66,7 @@ public class JDlgRegiones extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -105,6 +107,16 @@ public class JDlgRegiones extends javax.swing.JDialog {
             }
         });
         jPanel1.add(btnSierra, new org.netbeans.lib.awtextra.AbsoluteConstraints(742, 14, 238, 154));
+
+        rSButtonMaterialIconUno1.setBackground(new java.awt.Color(0, 0, 0));
+        rSButtonMaterialIconUno1.setText("Regresar");
+        rSButtonMaterialIconUno1.setIcons(rojeru_san.efectos.ValoresEnum.ICONS.ARROW_BACK);
+        rSButtonMaterialIconUno1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSButtonMaterialIconUno1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(rSButtonMaterialIconUno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 130, -1));
 
         jLabel2.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel2.setText("Sierra");
@@ -185,6 +197,11 @@ public class JDlgRegiones extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnCostaActionPerformed
 
+    private void rSButtonMaterialIconUno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonMaterialIconUno1ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_rSButtonMaterialIconUno1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -213,7 +230,7 @@ public class JDlgRegiones extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "turistapp", "042395");
         java.awt.EventQueue.invokeLater(() -> {
             try {
                 JDlgRegiones dialog = new JDlgRegiones(new javax.swing.JFrame(), true, manager, 0);
@@ -242,5 +259,6 @@ public class JDlgRegiones extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private RSMaterialComponent.RSButtonMaterialIconUno rSButtonMaterialIconUno1;
     // End of variables declaration//GEN-END:variables
 }

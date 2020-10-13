@@ -93,14 +93,14 @@ public class UsuarioBdDAO implements UsuarioDAO {
     }
 
     @Override
-    public void eliminar(Usuario a) throws DAOException {
+    public void eliminar(Integer a) throws DAOException {
 
         PreparedStatement stmt = null;
         int rows = 0;
         try {
 
             stmt = conn.prepareStatement(DELETE);
-            stmt.setInt(1, a.getCodigo());
+            stmt.setInt(1, a);
 
             if (stmt.executeUpdate() == 0) {
                 throw new DAOException("El registro no se ha borrado");

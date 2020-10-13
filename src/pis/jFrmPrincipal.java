@@ -47,10 +47,10 @@ public class jFrmPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 =  new FondoPanel();
-        jButton1 = new javax.swing.JButton();
+        jBtnUser = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        jLblCrearCuenta = new javax.swing.JLabel();
+        jBtnEmpleado = new javax.swing.JButton();
         rSLabelImage1 = new rojeru_san.rslabel.RSLabelImage();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -75,50 +75,50 @@ public class jFrmPrincipal extends javax.swing.JFrame {
         });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/51 sin título-5.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setFocusPainted(false);
-        jButton1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jButton1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/51 sin título-6(1).png"))); // NOI18N
-        jButton1.setVerifyInputWhenFocusTarget(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/51 sin título-5.png"))); // NOI18N
+        jBtnUser.setBorder(null);
+        jBtnUser.setBorderPainted(false);
+        jBtnUser.setContentAreaFilled(false);
+        jBtnUser.setFocusPainted(false);
+        jBtnUser.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jBtnUser.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/51 sin título-6(1).png"))); // NOI18N
+        jBtnUser.setVerifyInputWhenFocusTarget(false);
+        jBtnUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBtnUserActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 26, 300, 40));
+        jPanel1.add(jBtnUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 26, 300, 40));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("¿No tienes cuenta?");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(691, 290, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Crea una");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLblCrearCuenta.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        jLblCrearCuenta.setForeground(new java.awt.Color(255, 255, 255));
+        jLblCrearCuenta.setText("Crea una");
+        jLblCrearCuenta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                jLblCrearCuentaMouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 310, -1, -1));
+        jPanel1.add(jLblCrearCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 310, -1, -1));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/51 sin título-1.png"))); // NOI18N
-        jButton2.setBorder(null);
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton2.setFocusPainted(false);
-        jButton2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jButton2.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/51 sin título-2(1).png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jBtnEmpleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/51 sin título-1.png"))); // NOI18N
+        jBtnEmpleado.setBorder(null);
+        jBtnEmpleado.setBorderPainted(false);
+        jBtnEmpleado.setContentAreaFilled(false);
+        jBtnEmpleado.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jBtnEmpleado.setFocusPainted(false);
+        jBtnEmpleado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jBtnEmpleado.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/51 sin título-2(1).png"))); // NOI18N
+        jBtnEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jBtnEmpleadoActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 74, 300, 40));
+        jPanel1.add(jBtnEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 74, 300, 40));
 
         rSLabelImage1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/IMG_2010.PNG"))); // NOI18N
         rSLabelImage1.setToolTipText("");
@@ -138,11 +138,11 @@ public class jFrmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBtnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnUserActionPerformed
         // TODO add your handling code here:
         try {
             // TODO add your handling code here:
-            DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+            DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "turistapp", "042395");
             jDlgLogin ventana = new jDlgLogin(this, true, manager);
             dispose();
             ventana.setBoton("Usuario");
@@ -153,13 +153,13 @@ public class jFrmPrincipal extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(jFrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jBtnUserActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jBtnEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEmpleadoActionPerformed
         // TODO add your handling code here:
         try {
             // TODO add your handling code here:
-            DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+            DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "turistapp", "042395");
             jDlgLogin ventana = new jDlgLogin(this, true, manager);
             dispose();
             ventana.setBoton("Empleado");
@@ -170,13 +170,14 @@ public class jFrmPrincipal extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(jFrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jBtnEmpleadoActionPerformed
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+    private void jLblCrearCuentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLblCrearCuentaMouseClicked
         try {
             // TODO add your handling code here:
-            DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+            DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "turistapp", "042395");
             jDialRegistroCuenta venta = new jDialRegistroCuenta(null, true, manager);
+            dispose();
             venta.setVisible(true);
             venta.pack();
         } catch (ClassNotFoundException ex) {
@@ -184,7 +185,7 @@ public class jFrmPrincipal extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(jFrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jLabel2MouseClicked
+    }//GEN-LAST:event_jLblCrearCuentaMouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         // TODO add your handling code here:
@@ -242,10 +243,10 @@ public class jFrmPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jBtnEmpleado;
+    private javax.swing.JButton jBtnUser;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLblCrearCuenta;
     private javax.swing.JPanel jPanel1;
     private rojeru_san.rslabel.RSLabelImage rSLabelImage1;
     // End of variables declaration//GEN-END:variables

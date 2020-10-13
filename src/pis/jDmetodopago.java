@@ -26,6 +26,7 @@ public class jDmetodopago extends javax.swing.JDialog {
         initComponents();
         txtPrecio.setText(precio+"");
         txtOtro.setVisible(false);
+        this.setLocationRelativeTo(null);
     }
 
     public String getMtdoPago() {

@@ -102,28 +102,7 @@ public class EmpleadoBdDAO implements EmpleadoDAO {
     }
 
     @Override
-    public void eliminar(Empleado a) throws DAOException {
-        PreparedStatement stmt = null;
-        int rows = 0;
-        try {
-
-            stmt = conn.prepareStatement(DELETE);
-            stmt.setInt(1, a.getCod_empleado());
-
-            if (stmt.executeUpdate() == 0) {
-                throw new DAOException("El registro no se ha borrado");
-            }
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(EmpleadoBdDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(EmpleadoBdDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+    public void eliminar(Integer a) throws DAOException {}
 
     @Override
     public List<Empleado> obtenerTodos() throws DAOException {

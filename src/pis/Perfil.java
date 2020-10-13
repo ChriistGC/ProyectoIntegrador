@@ -5,11 +5,12 @@
  */
 package pis;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import re.dao.DAOException;
 import re.dao.DAOManager;
@@ -68,8 +69,8 @@ public class Perfil extends javax.swing.JPanel {
 
     public void setAct(Actividad act) {
         this.act = act;
-    }    
-    
+    }
+
     public void setEditable(boolean editable) {
         this.editable = editable;
         txtCodigo.setEditable(false);
@@ -222,7 +223,7 @@ public class Perfil extends javax.swing.JPanel {
 
         lblUser.setBackground(new java.awt.Color(255, 255, 255));
         lblUser.setForeground(new java.awt.Color(255, 255, 255));
-        lblUser.setText("rSLabelSombra2");
+        lblUser.setText("User");
 
         javax.swing.GroupLayout rSPanelImage1Layout = new javax.swing.GroupLayout(rSPanelImage1);
         rSPanelImage1.setLayout(rSPanelImage1Layout);
@@ -308,9 +309,19 @@ public class Perfil extends javax.swing.JPanel {
         jLabel3.setText("CORREO");
 
         txtCorreo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCorreoFocusLost(evt);
+            }
+        });
         txtCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCorreoActionPerformed(evt);
+            }
+        });
+        txtCorreo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCorreoKeyPressed(evt);
             }
         });
 
@@ -327,6 +338,14 @@ public class Perfil extends javax.swing.JPanel {
         txtTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTelefonoActionPerformed(evt);
+            }
+        });
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
             }
         });
 
@@ -355,6 +374,11 @@ public class Perfil extends javax.swing.JPanel {
                 txtCiudadActionPerformed(evt);
             }
         });
+        txtCiudad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCiudadKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("DIRECCION");
@@ -366,6 +390,11 @@ public class Perfil extends javax.swing.JPanel {
         txtDireccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDireccionActionPerformed(evt);
+            }
+        });
+        txtDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDireccionKeyTyped(evt);
             }
         });
 
@@ -549,7 +578,7 @@ public class Perfil extends javax.swing.JPanel {
         lblNomCom.setBackground(new java.awt.Color(255, 255, 255));
         lblNomCom.setForeground(new java.awt.Color(255, 255, 255));
         lblNomCom.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNomCom.setText("Christopher Alex Gonzalez Cedeño");
+        lblNomCom.setText("Nombre de usuario");
         lblNomCom.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -629,6 +658,7 @@ public class Perfil extends javax.swing.JPanel {
         act = new Actividad(id, usuario.getCodigo(), 0, "Realizado", "Actualizar", fecha);
         setAct(act);
         saveData();
+        setEditable(false);
         try {
             manager.getActividadDAO().insertar(act);
             manager.getUsuarioDAO().modificar(usuario);
@@ -659,10 +689,12 @@ public class Perfil extends javax.swing.JPanel {
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (n == JOptionPane.OK_OPTION) {
                 DetalleFactura detfac = manager.getDetalleFacturaDAO().obtener(usuario.getCodigo());
-                manager.getLoginDAO().eliminar(login);
-                manager.getDetalleFacturaDAO().eliminar(detfac);
-                manager.getActividadDAO().eliminar(act);
-                manager.getUsuarioDAO().eliminar(usuario);
+                manager.getLoginDAO().eliminar(usuario.getCodigo());
+                if (detfac != null) {
+                    manager.getDetalleFacturaDAO().eliminar(usuario.getCodigo());
+                }
+                manager.getActividadDAO().eliminar(usuario.getCodigo());
+                manager.getUsuarioDAO().eliminar(usuario.getCodigo());
 
                 ventana2.dispose();
                 jFrmPrincipal ventana = new jFrmPrincipal();
@@ -677,6 +709,49 @@ public class Perfil extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_lblEliminarMouseClicked
+
+    private void txtCorreoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCorreoKeyPressed
+
+    private void txtCorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCorreoFocusLost
+        // TODO add your handling code here:
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");// Patrón para validar el email
+        String email = txtCorreo.getText();
+        Matcher mather = pattern.matcher(email);
+        if (mather.find() == false) {
+            JOptionPane.showMessageDialog(null, "Ingrese un correo valido", "E-mail invalido", JOptionPane.ERROR_MESSAGE);
+            txtCorreo.setText("");
+        }
+    }//GEN-LAST:event_txtCorreoFocusLost
+
+    private void txtTelefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefonoKeyPressed
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '\b' /*corresponde a BACK_SPACE*/)) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_txtTelefonoKeyTyped
+
+    private void txtCiudadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCiudadKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (!Character.isLetter(evt.getKeyChar()) && caracter != '\b' && caracter != ' ') {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_txtCiudadKeyTyped
+
+    private void txtDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionKeyTyped
+        // TODO add your handling code here:
+        char caracter = evt.getKeyChar();// Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0') || (caracter > '9')) && (!Character.isLetter(evt.getKeyChar()) && caracter != '\b' && caracter != ' ')) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_txtDireccionKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

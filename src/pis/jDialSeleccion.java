@@ -263,7 +263,7 @@ public class jDialSeleccion extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "turistapp", "042395");
         java.awt.EventQueue.invokeLater(() -> {
             try {
                 jDialSeleccion dialog = new jDialSeleccion(new javax.swing.JFrame(), true, manager, 1,88.8);

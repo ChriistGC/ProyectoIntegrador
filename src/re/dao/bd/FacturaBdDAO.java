@@ -95,28 +95,7 @@ public class FacturaBdDAO implements FacturaDAO{
     }
 
     @Override
-    public void eliminar(Factura a) throws DAOException {
-        PreparedStatement stmt = null;
-        int rows = 0;
-        try {
-
-            stmt = conn.prepareStatement(DELETE);
-            stmt.setInt(1, a.getIdFactura());
-
-            if (stmt.executeUpdate() == 0) {
-                throw new DAOException("El registro no se ha borrado");
-            }
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(FacturaBdDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                stmt.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(FacturaBdDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+    public void eliminar(Integer a) throws DAOException {}
 
     @Override
     public List<Factura> obtenerTodos() throws DAOException {

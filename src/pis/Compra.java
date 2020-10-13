@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import re.dao.DAOException;
 import re.dao.DAOManager;
+import reg.modelo.Actividad;
 import reg.modelo.DetalleFactura;
 import reg.modelo.Factura;
 import reg.modelo.Paquete;
@@ -167,14 +168,14 @@ public class Compra extends javax.swing.JPanel {
                             + "\nCedula: " + usuario.getCedula() + "\nCorreo: " + usuario.getCorreo() + "\nTelefono: " + usuario.getTelefono()
                             + "\nLugar Turistico: " + paquete.getLugarturistico() + "\nRegion: " + region.getRegion() + "\nCiudad: " + paquete.getCiudad()
                             + "\nDireccion" + paquete.getDireccion() + "\nFecha del viaje: " + factura.getFechaViaje() + "\nPrecio sin IVA: " + txtPrecio.getText()
-                            + "\nInteres por tarjeta: "+factura.getInteresPago()+"\nIVA: " + factura.getIVA() + "\nTotal: " + factura.getTotal());
+                            + "\nInteres por tarjeta: " + factura.getInteresPago() + "\nIVA: " + factura.getIVA() + "\nTotal: " + factura.getTotal());
                 } else {
                     bw = new BufferedWriter(new FileWriter(archivo.getAbsoluteFile() + ".txt"));
                     bw.write("Factura #" + factura.getIdFactura() + "\nFecha de la compra: " + factura.getFechaVenta() + "\nNombre del Cliente: " + usuario.getNombres() + " " + usuario.getApellidos()
                             + "\nCedula: " + usuario.getCedula() + "\nCorreo: " + usuario.getCorreo() + "\nTelefono: " + usuario.getTelefono()
                             + "\nLugar Turistico: " + paquete.getLugarturistico() + "\nRegion: " + region.getRegion() + "\nCiudad: " + paquete.getCiudad()
                             + "\nDireccion" + paquete.getDireccion() + "\nFecha del viaje" + factura.getFechaViaje() + "\nPrecio sin IVA: " + txtPrecio.getText()
-                            + "\nInteres por tarjeta: "+factura.getInteresPago()+"\nIVA: " + factura.getIVA() + "\nTotal: " + factura.getTotal());
+                            + "\nInteres por tarjeta: " + factura.getInteresPago() + "\nIVA: " + factura.getIVA() + "\nTotal: " + factura.getTotal());
                 }
                 bw.close();
             } catch (IOException ex) {
@@ -971,11 +972,14 @@ public class Compra extends javax.swing.JPanel {
                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (n == JOptionPane.OK_OPTION) {
                 try {
-                    int id = 1;
+                    int id = 1, id2 = 1;
                     try {
 
                         while (manager.getFacturaDAO().obtener(id) != null) {
                             id++;
+                        }
+                        while (manager.getActividadDAO().obtener(id2) != null) {
+                            id2++;
                         }
 
                     } catch (DAOException ex) {
@@ -994,52 +998,88 @@ public class Compra extends javax.swing.JPanel {
                         manager.getFacturaDAO().insertar(factura);
                         DetalleFactura det = new DetalleFactura(usuario.getCodigo(), 0, paquete.getId_paquete(), factura.getIdFactura());
                         manager.getDetalleFacturaDAO().insertar(det);
+                        Actividad act = new Actividad(id2, usuario.getCodigo(), 0, "Realizado", "Compra", fechaventa);
+                        manager.getActividadDAO().insertar(act);
                         guardarDatos();
                     }
                 } catch (DAOException ex) {
                     Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } else if (n==JOptionPane.CANCEL_OPTION){
+                try {
+                    int id = 1;
+                    try {
+                        while (manager.getActividadDAO().obtener(id) != null) {
+                            id++;
+                        }
+
+                    } catch (DAOException ex) {
+                        Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    DateTimeFormatter date1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate fechaactual = LocalDate.now();
+                    String fechaventa = fechaactual.format(date1);
+
+                    Actividad act = new Actividad(id, usuario.getCodigo(), 0, "No Realizado", "Compra", fechaventa);
+                    manager.getActividadDAO().insertar(act);
+                    limpiarDatos();
+                } catch (DAOException ex) {
+                    Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnPresupuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPresupuestoActionPerformed
         // TODO add your handling code here:
-        jDialPresupuesto ventana = new jDialPresupuesto(null, true);
-        ventana.setVisible(true);
-        txtPresupuesto.setText(ventana.getTxtPresupuesto());
+        try {
+            jDialPresupuesto ventana = new jDialPresupuesto(null, true);
+            ventana.setVisible(true);
+            txtPresupuesto.setText(ventana.getTxtPresupuesto());
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_btnPresupuestoActionPerformed
 
     private void btnPaqueteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaqueteActionPerformed
         // TODO add your handling code here:
-        ;
         try {
             if (txtPresupuesto.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Seleccione primero un presupuesto", "Sistema", JOptionPane.ERROR_MESSAGE);
             } else {
                 JDlgRegiones ventana = new JDlgRegiones(null, true, getManager(), Double.parseDouble(txtPresupuesto.getText()));
                 ventana.setVisible(true);
-                Paquete pq = manager.getPaqueteDAO().obtener(ventana.getCod());
-                Region rg = manager.getRegionDAO().obtener(pq.getId_region());
-                setPaquete(pq);
-                setRegion(rg);
-                loadData();
+                try {
+                    Paquete pq = manager.getPaqueteDAO().obtener(ventana.getCod());
+                    Region rg = manager.getRegionDAO().obtener(pq.getId_region());
+                    setPaquete(pq);
+                    setRegion(rg);
+                    loadData();
+                } catch (Exception e) {
+                }
             }
         } catch (DAOException ex) {
-//            Logger.getLogger(Compra.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_btnPaqueteActionPerformed
 
     private void btnMtdoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMtdoPagoActionPerformed
         // TODO add your handling code here:
-        double precio = paquete.getPresupuesto();
-        jDmetodopago ventana = new jDmetodopago(null, true, precio);
-        ventana.setVisible(true);
-        ventana.pack();
-        txtMtdoPago.setText(ventana.getMtdoPago());
-        setInteres(ventana.getInteres());
-        txtTotal.setText(ventana.getTxtTotal());
+        if (txtPresupuesto.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Seleccione primero un presupuesto", "Sistema", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                double precio = paquete.getPresupuesto();
+                jDmetodopago ventana = new jDmetodopago(null, true, precio);
+                ventana.setVisible(true);
+                ventana.pack();
+                txtMtdoPago.setText(ventana.getMtdoPago());
+                setInteres(ventana.getInteres());
+                txtTotal.setText(ventana.getTxtTotal());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Seleccione primero un paquete de viaje", "Sistema", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnMtdoPagoActionPerformed
 
 

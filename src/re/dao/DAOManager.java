@@ -8,7 +8,6 @@ public interface DAOManager {
    ActividadDAO getActividadDAO();
    PaqueteDAO getPaqueteDAO();
    RegionDAO getRegionDAO();
-   PruebDAO getPruebDAO();
    FacturaDAO getFacturaDAO();
    DetalleFacturaDAO getDetalleFacturaDAO();
    EmpleadoDAO getEmpleadoDAO();

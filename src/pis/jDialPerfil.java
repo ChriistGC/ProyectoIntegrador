@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import re.dao.DAOException;
 import re.dao.DAOManager;
 import re.dao.bd.OracleDaoManager;
+import reg.modelo.Actividad;
 import reg.modelo.Usuario;
 import reg.modelo.Login;
 import rojerusan.RSPanelsSlider;
@@ -47,7 +48,7 @@ public class jDialPerfil extends javax.swing.JDialog {
         rsutilities.RSUtilities.setCentrarVentana(this);
         Datos();
     }
-
+        
     private Usuario getUsuarioSeleccionado() throws DAOException {
         return manager.getUsuarioDAO().obtener(cod);
     }
@@ -271,7 +272,10 @@ public class jDialPerfil extends javax.swing.JDialog {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+        dispose();
+        jFrmPrincipal ventana= new jFrmPrincipal();
+        ventana.setVisible(true);
+        ventana.pack();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActividadActionPerformed
@@ -323,7 +327,7 @@ public class jDialPerfil extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "system", "042395");
+        DAOManager manager = new OracleDaoManager("jdbc:oracle:thin:@localhost:1521:XE", "turistapp", "042395");
         java.awt.EventQueue.invokeLater(() -> {
             try {
                 jDialPerfil dialog = new jDialPerfil(new javax.swing.JFrame(), true, manager);

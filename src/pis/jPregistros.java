@@ -48,7 +48,6 @@ public class jPregistros extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         rSPanelVector3 = new rojeru_san.rspanel.RSPanelVector();
-        jBtventasgenerar = new rojeru_san.rsbutton.RSButtonRound();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableActividad = new rojerusan.RSTableMetro1();
 
@@ -81,15 +80,6 @@ public class jPregistros extends javax.swing.JPanel {
 
         rSPanelVector3.setBackground(new java.awt.Color(188, 38, 28));
         rSPanelVector3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jBtventasgenerar.setBackground(new java.awt.Color(51, 51, 51));
-        jBtventasgenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/register-machine_icon-icons.com_48487.png"))); // NOI18N
-        jBtventasgenerar.setText("Generar");
-        jBtventasgenerar.setColorBorde(new java.awt.Color(43, 43, 43));
-        jBtventasgenerar.setColorHover(new java.awt.Color(102, 102, 102));
-        jBtventasgenerar.setFont(new java.awt.Font("Roboto Bold", 1, 18)); // NOI18N
-        rSPanelVector3.add(jBtventasgenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(375, 15, 160, -1));
-
         rSPanelVector2.add(rSPanelVector3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 620, 900, 70));
 
         tableActividad.setModel(new javax.swing.table.DefaultTableModel(
@@ -118,7 +108,6 @@ public class jPregistros extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private rojeru_san.rsbutton.RSButtonRound jBtventasgenerar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;

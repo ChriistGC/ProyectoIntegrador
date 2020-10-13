@@ -35,7 +35,6 @@ public class jPanelActividad extends javax.swing.JPanel {
         tableActividad.setModel(model);
         trsFiltro = new TableRowSorter(tableActividad.getModel());
         tableActividad.setRowSorter(trsFiltro);
-        System.out.println(cod);
         trsFiltro.setRowFilter(RowFilter.regexFilter(String.valueOf(cod),0));    
     }       
 
